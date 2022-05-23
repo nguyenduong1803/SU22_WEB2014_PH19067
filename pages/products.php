@@ -63,8 +63,8 @@ $products = getProduct();
 
 
   .seller-item:hover>.seller_hover {
-    filter: opacity(0.4);
-    box-shadow: 0 5px 8px rgb(87, 86, 86);
+    filter: opacity(0.6);
+    box-shadow: 0px 2px 10px rgba(87, 86, 86, 0.4);
     cursor: pointer;
     transition: all 0.9s;
   }
@@ -86,7 +86,17 @@ $products = getProduct();
     color: #f97e6c;
     margin-bottom: 10px;
   }
-
+@keyframes flash {
+  0%{
+    color:#fff
+  }
+  50%{
+    color:#fce9ff;
+  }
+  100%{
+    color: #f86363;
+  }
+}
   @keyframes mymove {
     from {
       opacity: 0;
@@ -99,7 +109,7 @@ $products = getProduct();
     }
   }
 
-  .show {
+  .shows {
     display: none;
     font-weight: 900;
     border-radius: 50%;
@@ -127,7 +137,7 @@ $products = getProduct();
     animation: mymove 0.3s linear;
   }
 
-  .show:hover {
+  .shows:hover {
     border: 1px solid #fff;
     background-color: #f97e6c;
     cursor: pointer;
@@ -141,9 +151,9 @@ $products = getProduct();
     color: #fff;
   }
 
-  .show:hover>.seller-item {}
+  .shows:hover>.seller-item {}
 
-  .seller-item:hover>.show {
+  .seller-item:hover>.shows {
     display: block;
   }
 
@@ -161,6 +171,8 @@ $products = getProduct();
     background-color: #f97e6c;
     font-family: 'Montserrat', sans-serif;
     color: #fff;
+    border-radius: 2px;
+    animation:flash infinite 1.4s ;
   }
 
   .manClock.active {
@@ -184,11 +196,6 @@ $products = getProduct();
     color: #fff;
   }
 
-  .man-seller {
-    margin: 0 auto;
-    width: 100%;
-    text-align: center;
-  }
 
 
 
@@ -197,12 +204,6 @@ $products = getProduct();
     justify-content: space-between;
   }
 
-  .feman-seller {
-    display: none;
-    margin: 0 auto;
-    width: 80%;
-    text-align: center;
-  }
 
   .feman-title {
     margin: 0 158px;
@@ -481,7 +482,7 @@ $products = getProduct();
   </div>
   <div class="bestSeller">
     <div class="sell-title row justify-content-center">
-     
+
       <div class="col-lg-3 col-md-4 col-sm-6">
         <p class="manClock active  ">Đồng hồ nam</p>
       </div>
@@ -498,22 +499,25 @@ $products = getProduct();
 
 
     </div>
-    <div class="man-seller">
+    <div class="container">
       <div class="row seller-item">
         <?php
         foreach ($products as $key => $value) {
           # code...
 
         ?>
-          <div class="seller-item col-lg-3 col-md-4 col-sm-6">
-            <div class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </div>
-            <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
-            <span class="minusPrice"><?php echo $value['donGia'] ?></span>
-            <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
-            <ion-icon class="show" name="eye-outline"></ion-icon>
-            <ion-icon class="add-cart" name="cart-outline"></ion-icon>
-            <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
+          <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="seller-item ">
+              <div class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </div>
+              <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
+              <span class="minusPrice"><?php echo $value['donGia'] ?></span>
+              <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
+              <ion-icon class="shows" name="eye-outline"></ion-icon>
+              <ion-icon class="add-cart" name="cart-outline"></ion-icon>
+              <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
+            </div>
           </div>
+
         <?php
         }
         ?>

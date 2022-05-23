@@ -128,7 +128,19 @@ if(isset($_POST['send'])){
         text-decoration: none;
         color: #000;
     }
+    .form{
+        margin: 0 auto;
+    }
+    .form__conatiner {
+        padding: 60px 0;
+    background: #eaafc8;
+    background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
+    background: linear-gradient(to right, #eaafc8, #654ea3);
+  }
 </style>
+<div class="form__conatiner">
+
+
 <form class="form form1" method="POST">
     <h2>Login</h2>
     <div class="mb-3">
@@ -157,3 +169,4 @@ if(isset($_POST['send'])){
     <button type="submit" name="send" class="btn btn-primary btns btn-forgot">Forgot Password</button>
     <p class="btn__login ">Đăng nhập</p>
 </form>
+</div>

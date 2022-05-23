@@ -1,3 +1,8 @@
+<?php 
+require "database/get.php";
+$products = getProduct();
+$cateArr = getCategory();
+?>
 <h2>Trang chủ</h2>
 
 
@@ -312,29 +317,27 @@
     </div>
 </div>
 <h2 class="center title">ALL PRODUCTS</h2>
-<div class="row products">
-    <?php
+<div class="container">
+<div class="man-seller">
+      <div class="row seller-item">
+        <?php
+        foreach ($products as $key => $value) {
+          # code...
 
-    foreach ($list as $keys => $item) {
-    ?>
-        <div class='col-lg-3 col-md-4 '>
-            <div class='product'>
-                <img src="<?php echo $item['img'] ?>" alt="" class="p-img">
-                <h4 class="center"> <?php echo $item['fullname'] ?> </h4>
-                <p class='center'>Category: <?php foreach ($cateArr as $key => $value) {
-                                                if ($value['cate_id'] === $item['cate_id']) {
-                                                    echo $value['category'];
-                                                }
-                                            } ?> </p>
-                <p class='price'><?php echo $item['price'] ?><span class="vnd">đ</span> </p>
-                <div class='viewDetail'>
-                    <i class='fa-solid fa-cart-arrow-down'></i> <span>View Cart</span>
-                </div>
-            </div>
-        </div>
-    <?php
-    }
+        ?>
+          <div class="seller-item col-lg-3 col-md-4 col-sm-6">
+            <div class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </div>
+            <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
+            <span class="minusPrice"><?php echo $value['donGia'] ?></span>
+            <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
+            <ion-icon class="show" name="eye-outline"></ion-icon>
+            <ion-icon class="add-cart" name="cart-outline"></ion-icon>
+            <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
+          </div>
+        <?php
+        }
+        ?>
+      </div>
 
-    ?>
-
+    </div>
 </div>
