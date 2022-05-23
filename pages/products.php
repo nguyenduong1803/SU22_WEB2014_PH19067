@@ -33,7 +33,7 @@ $products = getProduct();
   .sell-title {
     width: 100%;
     margin: 30px 0;
- 
+
   }
 
   .sell-title p {
@@ -60,7 +60,7 @@ $products = getProduct();
     text-align: center;
   }
 
-  
+
 
   .seller-item:hover>.seller_hover {
     filter: opacity(0.4);
@@ -166,6 +166,12 @@ $products = getProduct();
   .manClock.active {
     background-color: rgba(17, 16, 16, 0.8);
     color: #fff;
+  }
+
+  .manClock,
+  .phuKien,
+  .femanClock {
+    width: 100%;
   }
 
   .femanClock.active {
@@ -432,14 +438,14 @@ $products = getProduct();
   .prev:hover {
     cursor: pointer;
   }
-  .product__img{
+
+  .product__img {
     max-width: 100%;
     height: 80%;
     object-fit: contain;
     transition: all 0.9s;
-    
-  } 
-  
+
+  }
 </style>
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
   <div class="carousel-indicators">
@@ -475,10 +481,22 @@ $products = getProduct();
   </div>
   <div class="bestSeller">
     <div class="sell-title row justify-content-center">
-      <p class="manClock active  col-lg-3 col-md-4 col-sm-6">Đồng hồ nam</p>
-      <p class="femanClock   col-lg-3 col-md-4 col-sm-6">Đồng hồ nữ</p>
-      <p class="phuKien col-lg-3 col-md-4 col-sm-6">Phụ kiện</p>
-      <p class="phuKien col-lg-3 col-md-4 col-sm-6">Phụ kiện</p>
+     
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <p class="manClock active  ">Đồng hồ nam</p>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <p class="femanClock">Đồng hồ nữ</p>
+
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <p class="phuKien">Phụ kiện</p>
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <p class="phuKien">Laptop</p>
+      </div>
+
+
     </div>
     <div class="man-seller">
       <div class="row seller-item">
@@ -488,13 +506,13 @@ $products = getProduct();
 
         ?>
           <div class="seller-item col-lg-3 col-md-4 col-sm-6">
-              <div class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </div>
-              <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
-              <span class="minusPrice"><?php echo $value['donGia'] ?></span>
-              <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
-              <ion-icon class="show" name="eye-outline"></ion-icon>
-              <ion-icon class="add-cart" name="cart-outline"></ion-icon>
-              <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
+            <div class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </div>
+            <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
+            <span class="minusPrice"><?php echo $value['donGia'] ?></span>
+            <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
+            <ion-icon class="show" name="eye-outline"></ion-icon>
+            <ion-icon class="add-cart" name="cart-outline"></ion-icon>
+            <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
           </div>
         <?php
         }
