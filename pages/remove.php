@@ -29,6 +29,6 @@ function db_remove($id, $img)
         }
     }
     mysqli_close($conn);
-    header("Location:?page=admin");
+    header("Location:?page=manageProduct");
 }
 db_remove($id, $img);

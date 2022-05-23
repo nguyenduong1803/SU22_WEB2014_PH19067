@@ -18,34 +18,39 @@
         .bigs {
             background-color: #fff !important;
         }
+        .mynav{
+            margin-bottom: 4px;
+        }
     </style>
     <div class="bigs">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm mynav">
-            <a href="#" class="navbar-brand font-weight-bold d-block d-lg-none">MegaMenu</a>
-            <button type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div id="navbarContent" class="collapse navbar-collapse">
-                <ul class="navbar-nav mx-auto">
-                    <!-- Megamenu-->
-                    <li class="nav-item"><a href="?page=home" class="nav-link links font-weight-bold text-uppercase">Trang chủ</a></li>
-                    <li class="nav-item"><a href="?page=recomand" class="nav-link links font-weight-bold text-uppercase">Giới thiệu</a></li>
-                    <li class="nav-item"><a href="?page=news" class="nav-link links font-weight-bold text-uppercase">Tin tức</a></li>
-                    <li class="nav-item"><a href="?page=products" class="nav-link links font-weight-bold text-uppercase">Sản phẩm</a></li>
-                    <li class="nav-item"><a href="?page=register" class="nav-link links font-weight-bold text-uppercase">Đăng Ký</a></li>
-                    <li class="nav-item"><a href="?page=<?php
-                                                        if (isset($_COOKIE['username'])) {
-                                                            if ($_COOKIE['username'] === 'admin') {
-                                                                echo "admin";
-                                                            } else {
-                                                                echo "loginSusses";
-                                                            }
-                                                        } else {
-                                                            echo "login";
-                                                        }
-                                                        ?>" class="nav-link links font-weight-bold text-uppercase">
-                            <?php echo isset($_COOKIE['username']) ? "Chào " . $_COOKIE['username'] : "Đăng nhập"; ?> </a></li>
-                </ul>
+        <nav class="navbar navbar-expand-lg navbar-light  mynav">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <ul class="navbar-nav mx-auto">
+                            <!-- Megamenu-->
+                            <li class="nav-item"><a href="?page=home" class="nav-link links font-weight-bold text-uppercase">Trang chủ</a></li>
+                            <li class="nav-item"><a href="?page=recomand" class="nav-link links font-weight-bold text-uppercase">Giới thiệu</a></li>
+                            <li class="nav-item"><a href="?page=news" class="nav-link links font-weight-bold text-uppercase">Tin tức</a></li>
+                            <li class="nav-item"><a href="?page=products" class="nav-link links font-weight-bold text-uppercase">Sản phẩm</a></li>
+                            <li class="nav-item"><a href="?page=register" class="nav-link links font-weight-bold text-uppercase">Đăng Ký</a></li>
+                            <li class="nav-item"><a href="?page=<?php
+                                                                if (isset($_COOKIE['username'])) {
+                                                                    if ($_COOKIE['username'] === 'admin') {
+                                                                        echo "admin";
+                                                                    } else {
+                                                                        echo "loginSusses";
+                                                                    }
+                                                                } else {
+                                                                    echo "login";
+                                                                }
+                                                                ?>" class="nav-link links font-weight-bold text-uppercase">
+                                    <?php echo isset($_COOKIE['username']) ? "Chào " . $_COOKIE['username'] : "Đăng nhập"; ?> </a></li>
+                        </ul>
+                </div>
             </div>
         </nav>
 
