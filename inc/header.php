@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigment giai đoạn 1</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/45281df593.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./public/css/style.css" type="text/css">
+
+</head>
+
+<body>
+    <style>
+        .bigs {
+            background-color: #fff !important;
+        }
+    </style>
+    <div class="bigs">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm mynav">
+            <a href="#" class="navbar-brand font-weight-bold d-block d-lg-none">MegaMenu</a>
+            <button type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="navbarContent" class="collapse navbar-collapse">
+                <ul class="navbar-nav mx-auto">
+                    <!-- Megamenu-->
+                    <li class="nav-item"><a href="?page=home" class="nav-link links font-weight-bold text-uppercase">Trang chủ</a></li>
+                    <li class="nav-item"><a href="?page=recomand" class="nav-link links font-weight-bold text-uppercase">Giới thiệu</a></li>
+                    <li class="nav-item"><a href="?page=news" class="nav-link links font-weight-bold text-uppercase">Tin tức</a></li>
+                    <li class="nav-item"><a href="?page=products" class="nav-link links font-weight-bold text-uppercase">Sản phẩm</a></li>
+                    <li class="nav-item"><a href="?page=register" class="nav-link links font-weight-bold text-uppercase">Đăng Ký</a></li>
+                    <li class="nav-item"><a href="?page=<?php
+                                                        if (isset($_COOKIE['username'])) {
+                                                            if ($_COOKIE['username'] === 'admin') {
+                                                                echo "admin";
+                                                            } else {
+                                                                echo "loginSusses";
+                                                            }
+                                                        } else {
+                                                            echo "login";
+                                                        }
+                                                        ?>" class="nav-link links font-weight-bold text-uppercase">
+                            <?php echo isset($_COOKIE['username']) ? "Chào " . $_COOKIE['username'] : "Đăng nhập"; ?> </a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <main id="main">
