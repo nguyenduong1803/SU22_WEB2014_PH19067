@@ -21,6 +21,9 @@
         .mynav{
             margin-bottom: 4px;
         }
+        .nav_ul{
+            height: 60px;
+        }
     </style>
     <div class="bigs">
         <nav class="navbar navbar-expand-lg navbar-light  mynav">
@@ -29,8 +32,8 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <ul class="navbar-nav mx-auto">
+                <div class="collapse navbar-collapse nav_ul" id="navbarNavAltMarkup">
+                        <ul class="navbar-nav mx-auto ">
                             <!-- Megamenu-->
                             <li class="nav-item"><a href="?page=home" class="nav-link links font-weight-bold text-uppercase">Trang chủ</a></li>
                             <li class="nav-item"><a href="?page=recomand" class="nav-link links font-weight-bold text-uppercase">Giới thiệu</a></li>

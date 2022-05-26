@@ -1,4 +1,7 @@
 <?php
+if( !isset($_COOKIE['username'])||!$_COOKIE['username']==="admin"){
+    die("không thể truy cập");
+}
 require "database/get.php";
 
 $list = getProduct();
@@ -164,7 +167,7 @@ if ($state === true) {
     }
 
     th:nth-child(1) {
-       
+
         width: 30px;
     }
 
@@ -184,16 +187,22 @@ if ($state === true) {
         width: 40px;
         ;
     }
-    .td_child{
+
+    .td_child {
         position: relative;
     }
-    .check{
+
+    .check {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform:translate(-50%,-50%);
+        transform: translate(-50%, -50%);
         width: 1.5rem;
         height: 1.5rem;
+    }
+
+    .clearAll {
+        display: none;
     }
 </style>
 <div class="form__conatiner">
@@ -308,24 +317,33 @@ if ($state === true) {
         </tbody>
     </table>
     <button class="btn btn-success chooseAll"> Chọn tất cả</button>
+    <button class="btn btn-success clearAll">Bỏ chọn tất cả</button>
     <button class="btn btn-danger  deleteAll"> Xóa mục đã chọn</button>
 
 </div>
 <script type="text/javascript">
     const checkbox = document.querySelectorAll(".check");
-    document.querySelector(".chooseAll").addEventListener('click',function(){
-       checkbox.forEach((ele)=>{
-           if(ele.checked===true){
-              ele.checked=false;
-        }else{
-            ele.checked=true;
-        }
-        
-       })
-    } ) 
-    document.querySelector(".deleteAll").addEventListener('click',function(){
-                 
-    } ) 
+    const choose = document.querySelector(".chooseAll");
+    const clear = document.querySelector(".clearAll");
+    choose.addEventListener('click', function() {
+        clear.style.display = "inline-block"
+        choose.style.display = "none"
+        checkbox.forEach((ele) => {
 
+            ele.checked = true
+        })
+    })
+    clear.addEventListener('click', function() {
+        clear.style.display = "none"
+        choose.style.display = "inline-block"
+        checkbox.forEach((ele) => {
+            if (ele.checked === true) {
+                ele.checked = false;
+            }
+            ele.checked = false
+        })
+    })
+    document.querySelector(".deleteAll").addEventListener('click', function() {
 
+    })
 </script>
