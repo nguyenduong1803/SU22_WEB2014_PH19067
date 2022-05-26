@@ -4,9 +4,11 @@ $products = getProduct();
 ?>
 
 <style>
-  .banner_img {
-    height: 459px;
-  }
+   .banner_img {
+        height: auto;
+        max-height: 600px;
+    }
+
 
   .products-title {
     font-weight: 1000;
@@ -75,11 +77,10 @@ $products = getProduct();
     font-size: 18px
   }
 
-  .money {
-    display: inline;
-  }
 
   .money {
+    display: inline;
+
     font-family: sans-serif;
     font-size: 15px;
     font-weight: 900;
@@ -195,9 +196,6 @@ $products = getProduct();
     background-color: rgba(17, 16, 16, 0.8);
     color: #fff;
   }
-
-
-
 
   .seller-product2 {
     display: flex;

@@ -1,14 +1,13 @@
-<?php 
+<?php
 require "database/get.php";
 $products = getProduct();
 $cateArr = getCategory();
 ?>
-<h2>Trang chủ</h2>
-
 
 <style>
     .banner_img {
-        height: 459px;
+        height: auto;
+        max-height: 600px;
     }
 
     .products2 {
@@ -216,6 +215,137 @@ $cateArr = getCategory();
     .flash-h2 {
         margin: 20px 0;
     }
+
+    .seller-item {
+        position: relative;
+        height: auto;
+        text-align: center;
+    }
+
+
+
+    .seller-item:hover>.seller_hover {
+        filter: opacity(0.6);
+        box-shadow: 0px 2px 10px rgba(87, 86, 86, 0.4);
+        cursor: pointer;
+        transition: all 0.9s;
+    }
+
+    .seller-item h2 {
+        margin: 16px 0;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 18px
+    }
+
+
+    .money {
+        display: inline;
+
+        font-family: sans-serif;
+        font-size: 15px;
+        font-weight: 900;
+        color: #f97e6c;
+        margin-bottom: 10px;
+    }
+
+    @keyframes flash {
+        0% {
+            color: #fff
+        }
+
+        50% {
+            color: #fce9ff;
+        }
+
+        100% {
+            color: #f86363;
+        }
+    }
+
+    @keyframes mymove {
+        from {
+            opacity: 0;
+            right: 0;
+        }
+
+        to {
+            opacity: 1;
+            right: 15px;
+        }
+    }
+
+    .shows {
+        display: none;
+        font-weight: 900;
+        border-radius: 50%;
+        border: 1px solid #f97e6c;
+        color: #f97e6c;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 30px;
+        padding: 3px;
+        animation: mymove 0.3s linear;
+    }
+
+    .add-cart {
+        display: none;
+        font-weight: 900;
+        border-radius: 50%;
+        border: 1px solid #f97e6c;
+        color: #f97e6c;
+        position: absolute;
+        top: 60px;
+        right: 15px;
+        font-size: 30px;
+        padding: 3px;
+        animation: mymove 0.3s linear;
+    }
+
+    .shows:hover {
+        border: 1px solid #fff;
+        background-color: #f97e6c;
+        cursor: pointer;
+        color: #fff;
+    }
+
+    .add-cart:hover {
+        border: 1px solid #fff;
+        background-color: #f97e6c;
+        cursor: pointer;
+        color: #fff;
+    }
+
+    .shows:hover>.seller-item {}
+
+    .seller-item:hover>.shows {
+        display: block;
+    }
+
+    .seller-item:hover>.add-cart {
+        display: block;
+    }
+
+    .sale {
+        position: absolute;
+        top: 5px;
+        left: 17px;
+        padding: 3px;
+        line-height: 1.5;
+        font-size: 15px;
+        background-color: #f97e6c;
+        font-family: 'Montserrat', sans-serif;
+        color: #fff;
+        border-radius: 2px;
+        animation: flash infinite 1.4s;
+    }
+    .product__img {
+    max-width: 100%;
+    height: 80%;
+    object-fit: contain;
+    transition: all 0.9s;
+
+  }
 </style>
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
     <div class="carousel-indicators">
@@ -317,27 +447,80 @@ $cateArr = getCategory();
     </div>
 </div>
 <h2 class="center title">ALL PRODUCTS</h2>
+<div class="line"></div>
 <div class="container">
-<div class="man-seller">
-      <div class="row seller-item">
-        <?php
-        foreach ($products as $key => $value) {
-          # code...
+    <div class="man-seller">
+        <div class="row seller-item">
+            <?php
+            foreach ($products as $key => $value) {
+                # code...
+            ?>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="seller-item ">
+                        <div class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </div>
+                        <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
+                        <span class="minusPrice"><?php echo $value['donGia'] ?></span>
+                        <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
+                        <ion-icon class="shows" name="eye-outline"></ion-icon>
+                        <ion-icon class="add-cart" name="cart-outline"></ion-icon>
+                        <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
+                    </div>
+                </div>
 
-        ?>
-          <div class="seller-item col-lg-3 col-md-4 col-sm-6">
-            <div class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </div>
-            <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
-            <span class="minusPrice"><?php echo $value['donGia'] ?></span>
-            <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
-            <ion-icon class="show" name="eye-outline"></ion-icon>
-            <ion-icon class="add-cart" name="cart-outline"></ion-icon>
-            <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
-          </div>
-        <?php
-        }
-        ?>
-      </div>
-
+            <?php
+            }
+            ?>
+        </div>
     </div>
+    <nav aria-label="Page navigation example ">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
+</div>
+
+<script type="text/javascript">
+function getTime() {
+    console.log("getTime");
+    var countDownDate = new Date("July 01, 2022 00:00:00").getTime();
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+        // Get today's date and time
+        var now = new Date().getTime();
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the element with id="demo"
+        // console.log(seconds);
+        // document.querySelector(".time").innerHTML = days + 'day' +
+        //     hours + "h " + minutes + "m " + seconds + "s ";
+        $('.time-day').innerHTML = `<span>  ${days} </span><p> Ngày</p> `
+        $('.time-hour').innerHTML = `<span>  ${hours} </span><p> Giờ</p> `
+        $('.time-minutes').innerHTML = `<span> ${minutes} </span><p>Phút</p>  `
+        $('.time-seconds').innerHTML = `<span>  ${seconds} </span><p>Giây</p>`
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.querySelector(".time").innerHTML = "Hết thời gian";
+        }
+    }, 1000);}
+    getTime();
+</script>
