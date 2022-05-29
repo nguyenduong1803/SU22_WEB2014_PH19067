@@ -297,7 +297,7 @@ if ($state === true) {
             ?>
                     <tr>
                         <td class="td_child"><input class="form-check-input check" type="checkbox" value="" id="flexCheckDefault"></td>
-                        <td><img class="mini-img" src="<?php echo $value['hinhAnh'] ?>" alt=""></td>
+                        <td><img class="mini-img " src="<?php echo $value['hinhAnh'] ?>" alt=""></td>
                         <td><?php echo $value['tenHangHoa'] ?></td>
                         <td> <?php foreach ($cateArr as $keys => $item) {
                                     if ($value['maLoaiHang'] === $item['maLoaiHang']) {

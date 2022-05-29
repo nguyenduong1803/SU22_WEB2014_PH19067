@@ -276,6 +276,7 @@ $cateArr = getCategory();
 
     .shows {
         display: none;
+        background-color: #fff;
         font-weight: 900;
         border-radius: 50%;
         border: 1px solid #f97e6c;
@@ -290,6 +291,7 @@ $cateArr = getCategory();
 
     .add-cart {
         display: none;
+        background-color: #fff;
         font-weight: 900;
         border-radius: 50%;
         border: 1px solid #f97e6c;
@@ -340,7 +342,7 @@ $cateArr = getCategory();
         animation: flash infinite 1.4s;
     }
     .product__img {
-    max-width: 100%;
+    width: 100%;
     height: 80%;
     object-fit: contain;
     transition: all 0.9s;
