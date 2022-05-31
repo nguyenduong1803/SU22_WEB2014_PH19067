@@ -46,7 +46,7 @@ try {
     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
-    echo 'Gửi thành công';
+    // echo 'Gửi thành công';
 } catch (Exception $e) {
     echo "Không gửi được: {$mail->ErrorInfo}";
 }

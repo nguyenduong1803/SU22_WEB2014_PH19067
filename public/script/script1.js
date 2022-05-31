@@ -29,15 +29,15 @@ function toggle() {
 function alerts() {
     const btns = $$('.btn--remove');
     if (btns) {
-       btns.forEach(btn => {
-        btn.onclick = e => {
-         const isSucssec= confirm('Bạn có muốn xóa Sản Phẩm');
-         if(isSucssec) { 
-         }else{
-             e.preventDefault();
-         }
-        }
-       });
+        btns.forEach(btn => {
+            btn.onclick = e => {
+                const isSucssec = confirm('Bạn có muốn xóa Sản Phẩm');
+                if (isSucssec) {
+                } else {
+                    e.preventDefault();
+                }
+            }
+        });
     }
 }
 function start() {
@@ -47,7 +47,7 @@ function start() {
 }
 function getTime() {
     console.log("getTime");
-    var countDownDate = new Date("Feb 12, 2022 00:00:00").getTime();
+    var countDownDate = new Date("July 19, 2022 00:00:00").getTime();
     // Update the count down every 1 second
     var x = setInterval(function () {
         // Get today's date and time
@@ -64,15 +64,18 @@ function getTime() {
         // console.log(seconds);
         // document.querySelector(".time").innerHTML = days + 'day' +
         //     hours + "h " + minutes + "m " + seconds + "s ";
-        $('.time-day').innerHTML = `<span>  ${days} </span><p> Ngày</p> `
-        $('.time-hour').innerHTML = `<span>  ${hours} </span><p> Giờ</p> `
-        $('.time-minutes').innerHTML = `<span> ${minutes} </span><p>Phút</p>  `
-        $('.time-seconds').innerHTML = `<span>  ${seconds} </span><p>Giây</p>`
-        // If the count down is finished, write some text
-        if (distance < 0) {
+        if ($('.time-day') && $('.time-hour') && $('.time-minutes') && $('.time-seconds')) {
+            $('.time-day').innerHTML = `<span>  ${days} </span><p> Ngày</p> `
+            $('.time-hour').innerHTML = `<span>  ${hours} </span><p> Giờ</p> `
+            $('.time-minutes').innerHTML = `<span> ${minutes} </span><p>Phút</p>  `
+            $('.time-seconds').innerHTML = `<span>  ${seconds} </span><p>Giây</p>`
+
+        } if (distance < 0) {
             clearInterval(x);
             document.querySelector(".time").innerHTML = "Hết thời gian";
         }
-    }, 1000);}
-  
+    }, 1000);
+}
+
+
 start();

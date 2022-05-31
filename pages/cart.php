@@ -1,10 +1,33 @@
 <?php
-if (!isset($_COOKIE['username']) || !$_COOKIE['username'] === "admin") {
-    die("không thể truy cập");
-}
 require "database/get.php";
 
-$list = getProduct();
+if (isset($_GET['addCart'])) {
+    $productId = $_GET['addCart'];
+    if (isset($_COOKIE['list'])) {
+        $saveCookie = json_decode($_COOKIE['list']);
+        $product =  getProductById($productId);
+        foreach ($saveCookie as $key => $value) {
+            if ($value->maHangHoa !== $productId) {
+                array_push($saveCookie, $product['0']);
+                setcookie("list", json_encode($saveCookie));
+            } else {
+                echo "đã có trong giỏ hàng";
+            }
+        }
+    }else{
+        $listProduct=[];
+        $product =  getProductById($productId);
+
+        array_push($listProduct, $product['0']);
+        setcookie("list", json_encode($listProduct));
+    }
+   
+    // var_dump($saveCookie[0]);
+
+
+}
+// var_dump(json_decode($_COOKIE['list']));
+
 
 
 ?>
@@ -110,12 +133,12 @@ $list = getProduct();
 </style>
 
 <div class="container">
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="?page=home">Trang chủ</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
-  </ol>
-</nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="?page=home">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
+        </ol>
+    </nav>
     <table class="table">
         <thead>
             <tr>
@@ -130,19 +153,19 @@ $list = getProduct();
         </thead>
         <tbody>
             <?php
-            if (!empty($list)) {
-                foreach ($list as $key => $value) {
+            if (!empty($saveCookie)) {
+                foreach ($saveCookie as $key => $value) {
             ?>
                     <tr>
                         <td class="td_child"><input class="form-check-input check" type="checkbox" value="" id="flexCheckDefault"></td>
-                        <td><img class="mini-img" src="<?php echo $value['hinhAnh'] ?>" alt=""></td>
-                        <td><?php echo $value['tenHangHoa'] ?></td>
+                        <td><img class="mini-img" src="<?php echo $value->hinhAnh ?>" alt=""></td>
+                        <td><?php echo $value->tenHangHoa ?></td>
 
-                        <td>quantity</td>
-                        <td><?php echo $value['donGia'] ?></td>
-                        <td class=""> <a class="btn-action btn--remove " href="?page=remove&&remove=<?php echo $value['maHangHoa'] ?>"><i class="fa-solid fa-circle-xmark red "></i><span class="color-white">remove</span></a></td>
+                        <td><input type="number" value="1" name="quantity"></td>
+                        <td><?php echo $value->donGia ?></td>
+                        <td class=""> <a class="btn-action btn--remove " href="?page=remove&&remove=<?php echo $value->maHangHoa ?>"><i class="fa-solid fa-circle-xmark red "></i><span class="color-white">remove</span></a></td>
                     </tr>
-                    <!-- database/remove.php?remove=<?php echo $value['maHangHoa'] ?> -->
+                    <!-- database/remove.php?remove=<?php echo $value->maHangHoa ?> -->
             <?php
                 }
             }

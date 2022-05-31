@@ -277,28 +277,28 @@ class SMTP
                 break;
             case 'html':
                 //Cleans up output a bit for a better looking, HTML-safe output
-                echo gmdate('Y-m-d H:i:s'), ' ', htmlentities(
-                    preg_replace('/[\r\n]+/', '', $str),
-                    ENT_QUOTES,
-                    'UTF-8'
-                ), "<br>\n";
+                // echo gmdate('Y-m-d H:i:s'), ' ', htmlentities(
+                //     preg_replace('/[\r\n]+/', '', $str),
+                //     ENT_QUOTES,
+                //     'UTF-8'
+                // ), "<br>\n";
                 break;
             case 'echo':
             default:
                 //Normalize line breaks
                 $str = preg_replace('/\r\n|\r/m', "\n", $str);
-                echo gmdate('Y-m-d H:i:s'),
-                "\t",
-                    //Trim trailing space
-                trim(
-                    //Indent for readability, except for trailing break
-                    str_replace(
-                        "\n",
-                        "\n                   \t                  ",
-                        trim($str)
-                    )
-                ),
-                "\n";
+                // echo gmdate('Y-m-d H:i:s'),
+                // "\t",
+                //     //Trim trailing space
+                // trim(
+                //     //Indent for readability, except for trailing break
+                //     str_replace(
+                //         "\n",
+                //         "\n                   \t                  ",
+                //         trim($str)
+                //     )
+                // ),
+                // "\n";
         }
     }
 

@@ -1,7 +1,43 @@
 <?php
 // public/img/clock6.jpg
 require "database/get.php";
+require "database/add.php";
+$id = $_GET['id'];
 $products = getProduct();
+if(isset($_COOKIE['id'])){
+
+    $userId = $_COOKIE['id'];
+    $user = getUserById($userId);
+}
+$comments = getComment($id);
+$showProduct = getProductById($id);
+// print_r(getdate());
+// $product = getProductById(1);
+$notify = "";
+if (isset($_POST['sendComment'])) {
+    //    var_dump($product);
+
+    if (isset($_COOKIE['username'])) {
+        $productId = $products[0]['maHangHoa'];
+        $content = $_POST['content'];
+        if ($content === "") {
+            $notify = "Vui lòng nhập bình luận";
+        } else {
+            // header('Location:?page=handleClick');
+            if (isset($_POST['content'])) {
+                //     echo $productId;
+                //   $content=  $_GET['content_cmt'];
+                $sql = "INSERT INTO `binhluan` ( `noiDung`, `maHangHoa`, `ngayBinhLuan`, `maKh`)
+                 VALUES ( '$content', '$id',now(), '$userId');";
+                db_insert($sql);
+                echo $product;
+                header("Location:?page=detailProduct&&id={$id}");
+            }
+        }
+    } else {
+        header('Location:?page=login');
+    }
+}
 ?>
 <style>
     .wrap_text {
@@ -211,7 +247,19 @@ $products = getProduct();
         color: #f97e6c;
         margin-bottom: 10px;
     }
-
+    .form_cmt{
+        margin: 12px;
+    }
+    .cmt_input{
+        margin-right: 24px;
+    }
+    .wrap_content{
+        background-color: #F5F5F5;
+        border-radius: 20px;
+        width: 100%;
+        padding:12px;
+        margin-left: 10px;
+    }
     @keyframes flash {
         0% {
             color: #fff
@@ -279,31 +327,57 @@ $products = getProduct();
         cursor: pointer;
         color: #fff;
     }
+
+    .avatar {
+        vertical-align: middle;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    .avatar_bot{
+        position: relative;
+        top: 4px;
+    }
+
+    .comment_item {
+        margin: 0 12px;
+        /* border: 1px solid #d8d8d8; */
+        border-radius: 3px;
+        padding: 10px;
+    }
+
+    .seller_hover {
+        position: relative;
+    }
+    .text_avatar{
+        /* margin: 0 12px; */
+        font-weight: 400;
+    }
 </style>
 <div class="container">
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="?page=home">Trang chủ</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Thông tin sản phẩm</li>
-  </ol>
-</nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="?page=home">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Thông tin sản phẩm</li>
+        </ol>
+    </nav>
     <section class="descript_product">
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="wrap d-flex justify-content-end">
-                    <img src="public/img/clock6.jpg" alt="">
+                    <img class="img-fluid col-lg-12" src="<?php echo $showProduct[0]['hinhAnh'] ?>" alt="">
                 </div>
             </div>
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="wrap">
                     <div class="wrap_text">
-                        <h2>State</h2>
-                        <p class="price__product">5.600.000 đ</p>
+                        <h2><?php echo $showProduct[0]['tenHangHoa'] ?></h2>
+                        <p class="price__product"><?php echo $showProduct[0]['donGia'] ?></p>
                     </div>
                     <div class="wrap_text">
                         <p> <span>Loại máy: </span> <span class=" text-bold">Đang cập nhật</span></p>
                         <p><span>Thương hiệu: </span> <span class=" text-bold">Đang cập nhật</span></p>
-                        <p><span class="text-justify">Mô tả: Lorem ipsum dolor sit amet consectetur adipisicing elit. Est atque eius voluptatibus quibusdam nam quo, hic repellendus esse, incidunt porro tempora laudantium earum deserunt odit quae ratione quaerat dolore sed.</span></p>
+                        <p><span class="text-justify">Mô tả: <?php echo $showProduct[0]['moTa'] ?>.</span></p>
                     </div>
                     <div class="wrap_text">
                         <p><i class="fa-solid fa-truck-fast"></i> <span class="text-ads">Giao hàng toàn quốc </span></p>
@@ -387,23 +461,57 @@ $products = getProduct();
                 </div>
             </div>
             <div class="wrap_commment">
-                <div class="comment_item">
-                    <div>
-                        <h4 class="d-inline-block">Võ Trung Hiếu</h4>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <div><i class="fa-solid fa-check"></i><span>Đã mua hàng tại cửa hàng</span></div>
-                    <p class="comment_content">Sản phẩm quá tuyệt vời</p>
-                    <div>
-                        <span> <i class="fa-solid fa-thumbs-up"></i> Hữu ích</span>
-                        <span> <i class="fa-solid fa-triangle-exclamation"></i> Báo cáo sai phạm</span>
-                        <span>15:15 16/01/2022</span>
-                    </div>
+                <?php
+                if (isset($_COOKIE['username'])) {
+                } else {
+                    //     echo ' <div class="write_cmt ">
+                    //     <img class="avatar" src="./public/img/avt2.png" alt=""></img>
+                    //     <input type="text">
+                    //     <a href="" class="btn btn-success">Comment</a>
+                    // </div>';
+                }
+                ?>
+                <div class="write_cmt ">
+                    <form method="POST" class="row form_cmt">
+                        <div class="col-lg-1 ">
+                            <img class="avatar" src="./<?php echo $user[0]['hinhAnh'] ?>" alt=""></img>
+                        </div>
+                        <input type="text" class="col-lg-9" name="content" placeholder="Viết bình luận">
+                        <button type="submit" class="btn btn-primary col-lg-2" name="sendComment" value="Comment">Comment</button>
+                        <p> <?php echo $notify  ?></p>
+                    </form>
                 </div>
+                <!-- <a href="" class="btn btn-success">Comment</a> -->
+                <?php
+                foreach ($comments as $key => $value) {
+                    // if($value['maHangHoa']===$id){
+
+                ?>
+                    <div class="comment_item d-flex">
+                        <img class="avatar d-inline-block avatar_bot" src="./<?php echo joinUserCmt($value['maKh'])[0]['hinhAnh']  ?>" alt=""></img>
+                        <div class="wrap_content">
+                            <h4 class="d-inline-block text_avatar"><?php echo joinUserCmt($value['maKh'])[0]['tenKh'] ?></h4>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <p class="comment_content"><?php echo  $value['noiDung'] ?></p>
+                            <div>
+                                <span> <i class="fa-solid fa-thumbs-up"></i> Hữu ích</span>
+                                <span> <i class="fa-solid fa-triangle-exclamation"></i> Báo cáo sai phạm</span>
+                                <span><?php echo $value['ngayBinhLuan'] ?></span>
+                            </div>
+                        </div>
+                        <!-- <div><i class="fa-solid fa-check"></i><span>Đã mua hàng tại cửa hàng</span></div> -->
+                    </div>
+                <?php
+                }
+                // }
+
+                ?>
+
+
             </div>
         </div>
 
@@ -421,13 +529,15 @@ $products = getProduct();
             ?>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="seller-item ">
-                        <div class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </div>
+                        <a href="?page=detailProduct&&id=<?php echo $value['maHangHoa'] ?>" class="seller_hover">
+                            <img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt="">
+                            <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
+                        </a>
                         <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
                         <span class="minusPrice"><?php echo $value['donGia'] ?></span>
                         <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
                         <ion-icon class="shows" name="eye-outline"></ion-icon>
                         <ion-icon class="add-cart" name="cart-outline"></ion-icon>
-                        <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
                     </div>
                 </div>
 
