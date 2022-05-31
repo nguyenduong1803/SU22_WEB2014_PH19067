@@ -1,4 +1,7 @@
 <?php
+if (!isset($_COOKIE['username']) && !$_COOKIE['username'] === "admin") {
+    die("không thể truy cập");
+}
 require "database/connect.php";
 require "database/search.php";
 
@@ -23,6 +26,11 @@ if (isset($_GET['remove'])) {
     $id =  " {$listID}";
     echo $id;
     db_remove($id, "loaiHang", "maLoaiHang", "manageCategory","in");
+}else if(isset($_GET['removeCmt'])){
+    $id = $_GET['removeCmt'];
+    $productId = $_GET['productId'];
+    db_remove($id, "binhluan", "maBinhLuan", "manageComments&&id={$productId}","=");
+
 }
 
 
@@ -32,7 +40,13 @@ function db_remove($id, $table, $nameID, $to,$char)
     if ($conn->connect_error) {
         echo "kết nối thất bại";
     } else {
-        $sql = "DELETE FROM {$table} WHERE `{$table}`.`{$nameID}` $char ({$id})";
+        if ($char==="in"){
+            $newId = "($id)";
+        }else{
+            $newId =$id;
+        }
+        $sql = "DELETE FROM {$table} WHERE `{$table}`.`{$nameID}` $char {$newId}";
+        echo $sql;
         if ($conn->query($sql) === true) {
             echo "xóa thành công";
         } else {

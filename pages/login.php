@@ -1,5 +1,6 @@
 <?php
-// session_start();
+ if (session_id() === '')
+ session_start();
 $state = false;
 if (
     !isset($_POST['username']) || !isset($_POST['password'])
@@ -31,12 +32,18 @@ if ($state === true) {
         while ($row = $result->fetch_assoc()) {
             $pass = $row['matKhau'];
             $name = $row['tenKh'];
+            $id = $row['maKh'];
         }           
 
     }
     if (isset($name) && isset($pass)) {
         if ($pass == $password && $name == $username) {
-            setcookie('username', $username, time() + 3600);
+            $_SESSION['username']=$name;
+            $_SESSION['password']=$id;
+            $_SESSION['id']=$name;
+            // setcookie('username', $name, time() + 3600);
+            // setcookie('id', $id, time() + 3600);
+            // setcookie('password', $pass, time() + 3600);
             header('Location:?page=home');
         }
     } else {
@@ -55,12 +62,12 @@ if(isset($_POST['send'])){
     }else{
         require "database/search.php";
         $getName = $_POST['getname'];
-        $sql = "SELECT * FROM `user` WHERE name='{$getName}' Limit 1";  
+        $sql = "SELECT * FROM `khachHang` WHERE `tenKh`='{$getName}' Limit 1";  
         $result = db_search($sql);
         if($result->num_rows > 0){
             while ($row = $result->fetch_assoc()) {
                 $email = $row['email'];
-                $passwords = $row['password'];
+                $passwords = $row['matKhau'];
             }  
             require "Mail/sendMail.php";
             SendMail($email,$getName,$passwords);

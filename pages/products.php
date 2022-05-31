@@ -124,11 +124,15 @@ $products = getProduct();
     padding: 3px;
     animation: mymove 0.3s linear;
   }
-
+.eye{
+position: relative;
+top: -3px;
+}
   .add-cart {
     display: none;
     background-color: #fff;
-
+    width: 40px;
+    height: 40px;
     font-weight: 900;
     border-radius: 50%;
     border: 1px solid #f97e6c;
@@ -504,17 +508,15 @@ $products = getProduct();
       <div class="row seller-item">
         <?php
         foreach ($products as $key => $value) {
-          # code...
-
         ?>
           <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="seller-item ">
-              <div class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </div>
+              <a href="?page=detailProduct&&id=<?php echo $value['maHangHoa'] ?>" class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </a>
               <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
               <span class="minusPrice"><?php echo $value['donGia'] ?></span>
               <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
               <ion-icon class="shows" name="eye-outline"></ion-icon>
-              <ion-icon class="add-cart" name="cart-outline"></ion-icon>
+              <a class="add-cart" href="?page=cart&&addCart=<?php echo $value['maHangHoa'] ?>"><ion-icon class="eye" name="cart-outline"></ion-icon></a>
               <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
             </div>
           </div>

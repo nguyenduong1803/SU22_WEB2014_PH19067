@@ -1,7 +1,4 @@
-<?php
 
-
-?>
 <style>
     .form__conatiner {
         min-height: 400px;
@@ -22,13 +19,15 @@
 </style>
 <div class="form__conatiner">
     <div class="container">
-        <sestion class="d-flex space">
-            <div class="nav-item btn-add"><a href="?page=manageProduct" class="nav-link links add font-weight-bold text-uppercase">Quản lý sản phẩm</a></div>
-            <div class="nav-item btn-add"><a href="?page=manageCategory" class="nav-link links add font-weight-bold text-uppercase">Quản lý danh mục</a></div>
-            <div class="nav-item btn-add"><a href="?page=manageComments" class="nav-link links add font-weight-bold text-uppercase">Quản lý Bình luận</a></div>
-            <div class="nav-item btn-add"><a href="?page=manageSingle" class="nav-link links add font-weight-bold text-uppercase">Quản lý đơn hàng</a></div>
-            <button class="btn btn-success logout"><a href="?page=login&&logout=true" class="white">Đăng xuất</a> </button>
+        <sestion class="row space">
+            <div class="nav-item col-lg-4 btn-add"><a href="?page=manageProduct" class="nav-link links add font-weight-bold text-uppercase">Quản lý sản phẩm</a></div>
+            <div class="nav-item col-lg-4 btn-add"><a href="?page=manageCategory" class="nav-link links add font-weight-bold text-uppercase">Quản lý danh mục</a></div>
+            <div class="nav-item col-lg-4 btn-add"><a href="?page=manageComments" class="nav-link links add font-weight-bold text-uppercase">Quản lý Bình luận</a></div>
+            <div class="nav-item col-lg-4 btn-add"><a href="?page=manageComment" class="nav-link links add font-weight-bold text-uppercase">Quản lý khách hàng</a></div>
+            <div class="nav-item col-lg-4 btn-add"><a href="?page=manageCustomer" class="nav-link links add font-weight-bold text-uppercase">Quản lý đơn hàng</a></div>
         </sestion>
+        <button class="btn btn-success logout "><a href="?page=login&&logout=true" class="white">Đăng xuất</a> </button>
+
     </div>
 
 </div>

@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION['username']) && !$_SESSION['username'] === "admin") {
+    die("không thể truy cập");
+}
 require "database/search.php";
 require "database/get.php";
 $list = getProduct();

@@ -1,101 +1,15 @@
 <?php
-if (!isset($_COOKIE['username']) || !$_COOKIE['username'] === "admin") {
+if (!isset($_SESSION['username']) || !$_SESSION['username'] === "admin") {
     die("không thể truy cập");
 }
 require "database/get.php";
 
 $list = getProduct();
-// get category
-$cateArr = getCategory();
-$state = false;
-$error = [];
-
-if (isset($_POST['submit'])) {
-    $state = true;
-    if (
-        !isset($_POST['category']) || !isset($_POST['fullname']) ||
-        !isset($_POST['price']) || !isset($_POST['file']) || !isset($_POST['description'])
-    ) {
-    } else {
-    }
-}
-function isRequired($element)
-{
-    return !$element ? true : false;
-}
-function isNumber($num)
-{
-    return preg_match('/^[a-zA-Z0-9]*$/', $num) && $num > 0 ? true : false;
+$comments = [];
+if (isset($_GET['id'])) {
+    $comments = getComment(($_GET['id']));
 }
 
-if ($state === true) {
-    $fullname = $_POST['fullname'];
-    $category = $_POST['category'];
-    $description = $_POST['description'];
-    $file = $_FILES['files'];
-    $price = $_POST['price'];
-    $status = $_POST['status'];
-    $discount = $_POST['discount'];
-    // full name
-    if (isRequired($fullname)) {
-        $error['fullname'] = "Vui lòng nhập tên sản phẩm";
-    } else if (strlen($fullname) < 6) {
-        $error['fullname'] =  "Vui lòng điền username lớn hơn 6 kí tự";
-    }
-    // price
-    if (isRequired($price)) {
-        $error['price'] = "Vui lòng nhập giá sản phẩm";
-    } else if (!isNumber($price)) {
-        $error['price'] =  "Vui lòng nhập số dương";
-    }
-    // discount
-    if (isRequired($discount)) {
-        $error['discount'] = "Vui lòng nhập số phần trăm giảm giá";
-    } else if (!isNumber($discount)) {
-        $error['discount'] =  "Vui lòng nhập số dương";
-    }
-    // mô tả
-    if (isRequired($description)) {
-        $error['description'] = "Vui lòng nhập thông tin sản phẩm";
-    }
-    if (isRequired($status)) {
-        $error['status'] = "Vui lòng nhập trạng thái sản phẩm";
-    }
-    // danh mục
-    if (isRequired($category)) {
-        $error['category'] = "Vui lòng chọn danh mục";
-    }
-    // file
-    if ($_FILES['files']["tmp_name"] === "") {
-        $error['file'] = "Vui lòng chọn file";
-    }
-}
-// get category
-
-$users = getCategory();
-$notify = "";
-if ($state === true) {
-    if (count($error) > 0 && !empty($error)) {
-        $notify = "thêm thất bại";
-    } else {
-        require "lib/uploadFile.php";
-        require "database/add.php";
-        if (handlerFile($_FILES['files'])) {
-            $path = handlerFile($_FILES['files']);
-            // insert Products
-            if ($path != false) {
-                move_uploaded_file($file['tmp_name'], $path);
-                $product  = "INSERT INTO `hanghoa` (`tenHangHoa`, `moTa`, `donGia`,`hinhAnh`, `maLoaiHang`,`trangThai`,`mucGiamGia`)
-                VALUES (' {$fullname}','{$description}' ,'{$price}','{$path}',' {$category}','{$status}', '{$discount}')";
-                db_insert($product);
-                $notify = "thêm Thành công";
-                header("Location:?page=manageProduct");
-            } else {
-                $notify = "thêm thất bại";
-            }
-        }
-    }
-}
 
 ?>
 <style>
@@ -152,20 +66,21 @@ if ($state === true) {
     th {
         border: 1px solid #fff;
         text-align: center;
+        width: 16%;
     }
 
-    th:nth-child(1) {
+    /* th:nth-child(1) {
 
         width: 30px;
     }
 
     th:nth-child(5) {
-        width: 30%;
+        width: 20%;
     }
 
     th:nth-child(4) {
         width: 30px;
-    }
+    } */
 
     .table>:not(:first-child) {
         border-top: none !important;
@@ -210,6 +125,8 @@ if ($state === true) {
                 <li class="breadcrumb-item active" aria-current="page">Quảng lý bình luận</li>
             </ol>
         </nav>
+        <h2>Danh sách hàng hóa</h2>
+
         <table class="table">
             <thead>
                 <tr>
@@ -230,7 +147,7 @@ if ($state === true) {
                             <td><?php echo $value['tenHangHoa'] ?></td>
                             <td><?php echo $value['moTa'] ?></td>
                             <td><?php echo $value['donGia'] ?></td>
-                            <td><i class="fa-solid fa-eye"></i> Xem bình luận</td>
+                            <td><a href="?page=manageComments&&id=<?php echo $value['maHangHoa'] ?>" class="btn btn-success"><i class="fa-solid fa-eye"></i> Xem bình luận</a></td>
                         </tr>
                         <!-- database/remove.php?remove=<?php echo $value['maHangHoa'] ?> -->
                 <?php
@@ -239,11 +156,68 @@ if ($state === true) {
                 ?>
             </tbody>
         </table>
-    
+        <h2>Bình luận hàng hóa</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Check</th>
+                    <th scope="col">Mã bình luận</th>
+                    <th scope="col">Nội dung</th>
+                    <th scope="col">Mã khách hàng</th>
+                    <th scope="col">Mã hàng hóa</th>
+                    <th scope="col" class="color-white th_action">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if (!empty($list)) {
+                    foreach ($comments as $key => $value) {
+                ?>
+                        <tr>
+                            <td class="td_child"><input class="form-check-input check" type="checkbox" value="" id="flexCheckDefault"></td>
+                            <td><?php echo $value['maBinhLuan'] ?></td>
+
+                            <td><?php echo $value['noiDung'] ?></td>
+                            <td><?php echo $value['maKh'] ?></td>
+                            <td><?php echo $value['maHangHoa'] ?></td>
+                            <td class=""> <a class="btn-action btn--remove " href="?page=remove&&removeCmt=<?php echo $value['maBinhLuan'] ?>&&productId=<?php echo $value['maHangHoa'] ?>">
+                                    <i class="fa-solid fa-circle-xmark red "></i><span class="color-white">remove</span></a></td>
+                        </tr>
+                        <!-- database/remove.php?remove=<?php echo $value['maHangHoa'] ?> -->
+                <?php
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
+        <button class="btn btn-success chooseAll"> Chọn tất cả</button>
+        <button class="btn btn-success clearAll">Bỏ chọn tất cả</button>
         <button class="btn btn-danger  deleteAll"> Xóa mục đã chọn</button>
+
 
     </div>
 </div>
 <script type="text/javascript">
-  
+    const checkbox = document.querySelectorAll(".check");
+    const choose = document.querySelector(".chooseAll");
+    const clear = document.querySelector(".clearAll");
+    choose.addEventListener('click', function() {
+        clear.style.display = "inline-block"
+        choose.style.display = "none"
+        checkbox.forEach((ele) => {
+            ele.checked = true
+        })
+    })
+    clear.addEventListener('click', function() {
+        clear.style.display = "none"
+        choose.style.display = "inline-block"
+        checkbox.forEach((ele) => {
+            if (ele.checked === true) {
+                ele.checked = false;
+            }
+            ele.checked = false
+        })
+    })
+    document.querySelector(".deleteAll").addEventListener('click', function() {})
 </script>

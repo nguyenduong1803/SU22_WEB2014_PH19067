@@ -1,3 +1,9 @@
+<?php
+ if (session_id() === '')
+ session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,8 +47,8 @@
                             <li class="nav-item"><a href="?page=products" class="nav-link links font-weight-bold text-uppercase">Sản phẩm</a></li>
                             <li class="nav-item"><a href="?page=register" class="nav-link links font-weight-bold text-uppercase">Đăng Ký</a></li>
                             <li class="nav-item"><a href="?page=<?php
-                                                                if (isset($_COOKIE['username'])) {
-                                                                    if ($_COOKIE['username'] === 'admin') {
+                                                                if (isset($_SESSION['username'])) {
+                                                                    if ($_SESSION['username'] === 'admin' ) {
                                                                         echo "admin";
                                                                     } else {
                                                                         echo "loginSusses";
@@ -51,7 +57,7 @@
                                                                     echo "login";
                                                                 }
                                                                 ?>" class="nav-link links font-weight-bold text-uppercase">
-                                    <?php echo isset($_COOKIE['username']) ? "Chào " . $_COOKIE['username'] : "Đăng nhập"; ?> </a></li>
+                                    <?php echo isset($_SESSION['username']) ? "Chào " . $_SESSION['username'] : "Đăng nhập"; ?> </a></li>
                         </ul>
                 </div>
             </div>

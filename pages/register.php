@@ -118,6 +118,7 @@ if ($state === true) {
                             $path = handlerFile($_FILES['files']);
                             // insert Products
                             var_dump($path);
+                            move_uploaded_file($_FILES['files']['tmp_name'],$path);
                             $user = "INSERT INTO `khachhang` ( `tenKh`, `matKhau`, `hinhAnh`, `email`) 
                         VALUES ( '{$username}', '{$password}', '{$path}', '{$email}')";
                             db_insert($user);

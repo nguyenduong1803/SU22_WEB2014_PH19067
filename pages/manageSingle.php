@@ -1,7 +1,7 @@
 
 
 <?php
-if (!isset($_COOKIE['username']) || !$_COOKIE['username'] === "admin") {
+if (!isset($_SESSION['username']) || !$_SESSION['username'] === "admin") {
     die("không thể truy cập");
 }
 require "database/get.php";

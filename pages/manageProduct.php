@@ -1,5 +1,5 @@
 <?php
-if( !isset($_COOKIE['username'])||!$_COOKIE['username']==="admin"){
+if (!isset($_SESSION['username']) || !$_SESSION['username'] === "admin") {
     die("không thể truy cập");
 }
 require "database/get.php";
@@ -259,18 +259,14 @@ if ($state === true) {
 
             </div>
         </div>
-
-
-
-        <div>
-            <input type="file" class="mb-3 file" name="files" class="form-control" id="exampleInputEmail1">
-            <span class="notify"> <?php echo !empty($error['file']) ? $error['file'] : ""; ?> </span>
-        </div>
+        <input type="file" class="mb-3 file" name="files" class="form-control" id="exampleInputEmail1">
+        <span class="notify"> <?php echo !empty($error['file']) ? $error['file'] : ""; ?> </span>
         <button type="submit" name="submit" class="btn btn-primary btns">Submit</button>
-        <div class="state">
-            <?php
-            echo $notify;
-            ?>
+</div>
+<div class="state">
+    <?php
+    echo $notify;
+    ?>
     </form>
 
 
@@ -329,7 +325,6 @@ if ($state === true) {
         clear.style.display = "inline-block"
         choose.style.display = "none"
         checkbox.forEach((ele) => {
-
             ele.checked = true
         })
     })

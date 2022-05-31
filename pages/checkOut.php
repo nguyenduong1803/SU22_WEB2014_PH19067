@@ -8,47 +8,75 @@
         width: 80px;
         height: 80px;
     }
-    .checkout_product{
+
+    .checkout_product {
         background-color: #fcfcfc;
         padding: 24px;
     }
+
+    .btn_address {
+        margin: 12px;
+        padding: 12px;
+    }
+
+    .label_address {
+        height: 100%;
+    }
 </style>
 <div class="container">
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="?page=home">Trang chủ</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Đặt hàng</li>
-  </ol>
-</nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="?page=home">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Đặt hàng</li>
+        </ol>
+    </nav>
     <h4>Thông tin nhận hàng</h4>
-    <div class="row">
-        <div class="col-lg-4">
-            <form>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Họ và tên</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Họ và tên">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Nhập email">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Số điện thoại</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Số điện thoại">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Địa chỉ</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Địa chỉ">
-                </div>
+    <form class="row" method="POST">
+        <div class="col-lg-5">
 
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Ghi chú</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Ghi chú">
-                </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Họ và tên</label>
+                <input type="email" class="form-control"name="name" placeholder="Họ và tên">
+            </div>
 
-            </form>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Số điện thoại</label>
+                <input type="email" class="form-control"name="phone" placeholder="Số điện thoại">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Tỉnh/Thành phố, Quận/Huyện, Xã/Phường </label>
+                <input type="email" class="form-control"name="address" placeholder="Địa chỉ">
+
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Ghi chú</label>
+                <input type="email" class="form-control"name="note" placeholder="Ghi chú">
+            </div>
+
+            <div class="d-flex">
+                <div class=" col-lg-6 ">
+                    <div class="btn-success btn_address">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="home">
+                        <label class="label_address" for="home">
+                            Nhà riêng
+                        </label>
+                    </div>
+
+                </div>
+                <div class=" col-lg-6 ">
+                    <div class="btn-success btn_address">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="office">
+                        <label class="label_address" for="office">
+                            Văn Phòng
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
-        <div class="col-lg-4">
+        <!-- <div class="col-lg-4">
             <form>
                 <div class="form-group">
                     <input class="form-check-input" type="radio" name="pay">
@@ -64,8 +92,8 @@
                 </div>
 
             </form>
-        </div>
-        <div class="col-lg-4">
+        </div> -->
+        <div class="col-lg-6">
             <div class="checkout_product">
                 <div class="wrap_text">
                     <span>Đơn hàng ( 5 sản phẩm )</span>
@@ -93,10 +121,10 @@
                     </div>
                 </div>
                 <div class="wrap_text">
-                    <form class="form-inline">
-                        <input type="text" class="d-inline-block" id="inputPassword2" placeholder="Nhập mã giảm giá">
-                        <button type="submit" class="btn btn-primary mb-2 d-inline-block">Áp dụng</button>
-                    </form>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Mã giảm giá" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-success" type="button" id="button-addon2">Áp dụng</button>
+                    </div>
                 </div>
                 <div class="wrap_text">
                     <div class="d-flex align-items-center justify-content-between">
@@ -125,14 +153,13 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
-                            <span>
-                                < Quay về giỏ hàng</span>
+                            <a href="?page=checkOut">
+                                < Quay về giỏ hàng</a>
                         </div>
-                        <button class="btn  btn-primary">Đặt hàng</button>
-
+                        <button class="btn  btn-success">Đặt hàng</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>

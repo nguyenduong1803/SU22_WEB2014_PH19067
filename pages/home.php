@@ -14,7 +14,6 @@ $cateArr = getCategory();
         width: 100%;
 
     }
-
     .products-title {
         font-weight: 1000;
         text-align: center;
@@ -459,7 +458,7 @@ $cateArr = getCategory();
             ?>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="seller-item ">
-                        <div class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </div>
+                        <a href="?page=detailProduct&&id=<?php echo $value['maHangHoa'] ?>" class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </a>
                         <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
                         <span class="minusPrice"><?php echo $value['donGia'] ?></span>
                         <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
