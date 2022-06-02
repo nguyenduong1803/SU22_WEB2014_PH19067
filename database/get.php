@@ -14,15 +14,42 @@ function getProduct()
 }
 function getProductById($id)
 {
-    $list = [];
-    $sql = "SELECT * FROM `hanghoa` WHERE maHangHoa={$id}";
-    $result = db_select($sql);
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            array_push($list, $row);
+    if (is_array($id) && count($id) > 0) {
+       $listID= implode(",",$id);
+        $list = [];
+        $sql = "SELECT * FROM `hanghoa` WHERE maHangHoa in ({$listID})";
+        $result = db_select($sql);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($list, $row);
+            }
         }
+        return $list;
+    } else {
+
+        $list = [];
+        $sql = "SELECT * FROM `hanghoa` WHERE maHangHoa={$id}";
+        $result = db_select($sql);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($list, $row);
+            }
+        }
+        return $list;
     }
-    return $list;
+}
+function getProductByListId($list)
+{
+        $lists = [];
+        $sql = "SELECT * FROM `hanghoa` WHERE maHangHoa in ({$list})";
+        $result = db_select($sql);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($lists, $row);
+            }
+        }
+        return $lists;
+     
 }
 function getCategory()
 {
@@ -36,34 +63,37 @@ function getCategory()
     }
     return $cateArr;
 }
-function getUserById ($id){
-    $sql="SELECT * FROM `khachHang` WHERE `makh`={$id} Limit 1";
+function getUserById($id)
+{
+    $sql = "SELECT * FROM `khachHang` WHERE `maKh`={$id} Limit 1";
     $kq = db_select($sql);
-    $list =[];
-    if($kq->num_rows > 0) {
-        while ($row = $kq->fetch_assoc()){
+    $list = [];
+    if ($kq->num_rows > 0) {
+        while ($row = $kq->fetch_assoc()) {
             array_push($list, $row);
         }
     }
     return $list;
 }
-function getComment ($id){
-    $sql="SELECT * FROM `binhluan` WHERE maHangHoa = $id";
+function getComment($id)
+{
+    $sql = "SELECT * FROM `binhluan` WHERE maHangHoa = $id";
     $kq = db_select($sql);
-    $list =[];
-    if($kq->num_rows > 0) {
-        while ($row = $kq->fetch_assoc()){
+    $list = [];
+    if ($kq->num_rows > 0) {
+        while ($row = $kq->fetch_assoc()) {
             array_push($list, $row);
         }
     }
     return $list;
 }
-function joinUserCmt ($maKh){
-    $sql="SELECT * FROM `khachhang` inner join `binhluan` on binhluan.maKh = `khachHang`.maKh where binhluan.maKh =$maKh limit 1";
+function joinUserCmt($maKh)
+{
+    $sql = "SELECT * FROM `khachhang` inner join `binhluan` on binhluan.maKh = `khachHang`.maKh where binhluan.maKh =$maKh limit 1";
     $kq = db_select($sql);
-    $user =[];
-    if($kq->num_rows > 0) {
-        while ($row = $kq->fetch_assoc()){
+    $user = [];
+    if ($kq->num_rows > 0) {
+        while ($row = $kq->fetch_assoc()) {
             array_push($user, $row);
         }
     }

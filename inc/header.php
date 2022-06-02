@@ -42,13 +42,14 @@
                         <ul class="navbar-nav mx-auto ">
                             <!-- Megamenu-->
                             <li class="nav-item"><a href="?page=home" class="nav-link links font-weight-bold text-uppercase">Trang chủ</a></li>
-                            <li class="nav-item"><a href="?page=recomand" class="nav-link links font-weight-bold text-uppercase">Giới thiệu</a></li>
+                            <!-- <li class="nav-item"><a href="?page=recomand" class="nav-link links font-weight-bold text-uppercase">Giới thiệu</a></li> -->
                             <li class="nav-item"><a href="?page=news" class="nav-link links font-weight-bold text-uppercase">Tin tức</a></li>
                             <li class="nav-item"><a href="?page=products" class="nav-link links font-weight-bold text-uppercase">Sản phẩm</a></li>
+                            <li class="nav-item"><a href="?page=cart" class="nav-link links font-weight-bold text-uppercase">Giỏ hàng</a></li>
                             <li class="nav-item"><a href="?page=register" class="nav-link links font-weight-bold text-uppercase">Đăng Ký</a></li>
                             <li class="nav-item"><a href="?page=<?php
                                                                 if (isset($_SESSION['username'])) {
-                                                                    if ($_SESSION['username'] === 'admin' ) {
+                                                                    if ($_SESSION['username'] === 'admin'|| $_SESSION['role']===1 ) {
                                                                         echo "admin";
                                                                     } else {
                                                                         echo "loginSusses";

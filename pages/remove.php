@@ -1,5 +1,5 @@
 <?php
-if (!isset($_COOKIE['username']) && !$_COOKIE['username'] === "admin") {
+if (!isset($_SESSION['username']) && !$_SESSION['username'] === "admin") {
     die("không thể truy cập");
 }
 require "database/connect.php";
@@ -31,6 +31,14 @@ if (isset($_GET['remove'])) {
     $productId = $_GET['productId'];
     db_remove($id, "binhluan", "maBinhLuan", "manageComments&&id={$productId}","=");
 
+}else if(isset($_GET['removeCookie'])){
+    $getCookie = json_decode($_COOKIE['list']);
+    var_dump($getCookie);
+    $index =array_search((int)$_GET['removeCookie'],$getCookie);
+    unset($getCookie[$index]);
+    setcookie("list", json_encode($getCookie));
+    header("Location:?page=cart");
+    
 }
 
 

@@ -33,14 +33,15 @@ if ($state === true) {
             $pass = $row['matKhau'];
             $name = $row['tenKh'];
             $id = $row['maKh'];
+            $role = $row['chucNang'];
         }           
 
     }
     if (isset($name) && isset($pass)) {
         if ($pass == $password && $name == $username) {
             $_SESSION['username']=$name;
-            $_SESSION['password']=$id;
-            $_SESSION['id']=$name;
+            $_SESSION['id']=$id;
+            $_SESSION['role']=$role;
             // setcookie('username', $name, time() + 3600);
             // setcookie('id', $id, time() + 3600);
             // setcookie('password', $pass, time() + 3600);
@@ -51,7 +52,7 @@ if ($state === true) {
     }
 }
 if (isset($_GET['logout'])) {
-    setcookie('username', "", time() - 3600);
+    session_destroy();
     header('Location:?page=login');
 }
 // Forgot Password

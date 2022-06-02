@@ -1,33 +1,48 @@
 <?php
 require "database/get.php";
-
+// $arr = [1, 2, 3, 34, 3, 3];
+// var_dump(array_unique($arr));
 if (isset($_GET['addCart'])) {
     $productId = $_GET['addCart'];
-    if (isset($_COOKIE['list'])) {
-        $saveCookie = json_decode($_COOKIE['list']);
-        $product =  getProductById($productId);
-        foreach ($saveCookie as $key => $value) {
-            if ($value->maHangHoa !== $productId) {
-                array_push($saveCookie, $product['0']);
-                setcookie("list", json_encode($saveCookie));
-            } else {
-                echo "đã có trong giỏ hàng";
-            }
-        }
-    }else{
-        $listProduct=[];
-        $product =  getProductById($productId);
+    $saveCookie = (int)$productId;
+    if ($saveCookie != "" && isset($_COOKIE['list']) && $_COOKIE['list'] != "null") {
+        $getCookie = json_decode($_COOKIE['list']);
+        array_push($getCookie, $saveCookie);
+        $newArr = array_unique($getCookie);
+        setcookie("list", json_encode($newArr));
+        header("Location:?page=products&sussec=true");
+    } else {
+        setcookie("list", json_encode(array($saveCookie)));
+        header("Location:?page=products&sussec=true");
 
-        array_push($listProduct, $product['0']);
-        setcookie("list", json_encode($listProduct));
     }
-   
-    // var_dump($saveCookie[0]);
-
-
 }
-// var_dump(json_decode($_COOKIE['list']));
-
+$products = [];
+if (isset($_COOKIE['list'])) {
+    $getCookie = json_decode($_COOKIE['list']);
+    $products = getProductById($getCookie);
+}
+if(isset($_POST['checkout'])){
+    $arrId=[];
+    $arrQuantity=[];
+    foreach ($products as $key => $value) {
+        if(isset($_POST["checkProduct{$key}"])){
+            echo $_POST["checkProduct{$key}"];
+            array_push($arrId,(int)$_POST["checkProduct{$key}"]);
+            array_push($arrQuantity,(int)$_POST["quantity{$key}"]);
+        }
+    }
+    if(count($arrId)>0){
+        $listId = implode(",",$arrId);
+        $quantity = implode(",",$arrQuantity);
+        header("Location:?page=checkout&listId={$listId}&q={$quantity}");
+    }else{
+        
+    }
+    var_dump($arrId);
+   
+    echo "click";
+}
 
 
 ?>
@@ -130,6 +145,7 @@ if (isset($_GET['addCart'])) {
     .clearAll {
         display: none;
     }
+    
 </style>
 
 <div class="container">
@@ -139,70 +155,100 @@ if (isset($_GET['addCart'])) {
             <li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
         </ol>
     </nav>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Check</th>
-                <th scope="col">Image</th>
-                <th scope="col">Name</th>
-                <th scope="col">quantity</th>
-                <th scope="col">Price</th>
-                <th>Action</th>
+    <form action="" method ="POST">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Check</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">quantity</th>
+                    <th scope="col">Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if (!empty($products) && count($products) > 0) {
+                    foreach ($products as $key => $value) {
+                ?>
+                        <tr>
+                            <td class="td_child"><input onClick="handle(this)" class="form-check-input check"name="checkProduct<?php echo $key ?>" type="checkbox" value="<?php echo $value['maHangHoa'] ?>" id="flexCheckDefault"></td>
+                            <td><img class="mini-img" src="<?php echo $value['hinhAnh'] ?>" alt=""></td>
+                            <td><?php echo $value['tenHangHoa'] ?></td>
 
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            if (!empty($saveCookie)) {
-                foreach ($saveCookie as $key => $value) {
-            ?>
-                    <tr>
-                        <td class="td_child"><input class="form-check-input check" type="checkbox" value="" id="flexCheckDefault"></td>
-                        <td><img class="mini-img" src="<?php echo $value->hinhAnh ?>" alt=""></td>
-                        <td><?php echo $value->tenHangHoa ?></td>
+                            <td><input type="number" value="1" name="quantity<?php echo $key ?>"></td>
+                            <td class="td_price"><?php echo $value['donGia'] ?></td>
+                            <td class=""> <a class="btn-action btn--remove " href="?page=remove&&removeCookie=<?php echo $value['maHangHoa'] ?>"><i class="fa-solid fa-circle-xmark red "></i><span class="color-white">remove</span></a></td>
+                        </tr>
 
-                        <td><input type="number" value="1" name="quantity"></td>
-                        <td><?php echo $value->donGia ?></td>
-                        <td class=""> <a class="btn-action btn--remove " href="?page=remove&&remove=<?php echo $value->maHangHoa ?>"><i class="fa-solid fa-circle-xmark red "></i><span class="color-white">remove</span></a></td>
-                    </tr>
-                    <!-- database/remove.php?remove=<?php echo $value->maHangHoa ?> -->
-            <?php
+                <?php
+                    }
                 }
-            }
-            ?>
-        </tbody>
-    </table>
-    <div class="d-flex justify-content-between">
-        <button class="btn btn-success chooseAll"> Chọn tất cả</button>
-        <button class="btn btn-success clearAll">Bỏ chọn tất cả</button>
-        <div class="btn btn-success ">Tổng tiền : 20000000</div>
-    </div>
-    <button class="btn btn-success">Tiến hành thanh toán</button>
+                ?>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between">
+            <div class="btn btn-success chooseAll"> Chọn tất cả</div>
+            <div class="btn btn-success clearAll">Bỏ chọn tất cả</div>
+            <div class="btn btn-success totalMoney ">Tổng tiền : </div>
+        </div>
+        <button type="submit" name="checkout"  class="btn btn-success">Tiến hành thanh toán</button>
+    </form>
 
 </div>
 <script type="text/javascript">
     const checkbox = document.querySelectorAll(".check");
     const choose = document.querySelector(".chooseAll");
     const clear = document.querySelector(".clearAll");
-    choose.addEventListener('click', function() {
-        clear.style.display = "inline-block"
-        choose.style.display = "none"
-        checkbox.forEach((ele) => {
-
-            ele.checked = true
-        })
-    })
-    clear.addEventListener('click', function() {
-        clear.style.display = "none"
-        choose.style.display = "inline-block"
-        checkbox.forEach((ele) => {
-            if (ele.checked === true) {
-                ele.checked = false;
+    const totalMoney = document.querySelector(".totalMoney");
+    let count = [];
+    const handle = function(e) {
+        if (e.checked === true) {
+            count.push(e.parentElement.parentElement.children[4].innerText)
+        }
+        totalMoney.innerHTML = `Tổng tiền : ${count.reduce((init,value)=>Number(init)+Number(value),0)}`
+        console.log(e.parentElement.parentElement.children[4].innerText)
+    }
+    checkbox.forEach((ele) => {
+        console.log([ele])
+        ele.onClick = function(eles) {
+            if (eles.checked === true) {
+                count = eles.parentElement.parentElement.children[4].innerText;
+                console.log(count);
             }
-            ele.checked = false
-        })
-    })
-    document.querySelector(".deleteAll").addEventListener('click', function() {
+
+        }
+        totalMoney.innerHTML = `Tổng tiền : ${count}`
+
 
     })
+    if (choose) {
+        choose.addEventListener('click', function() {
+            let count = [];
+
+            clear.style.display = "inline-block"
+            choose.style.display = "none"
+            checkbox.forEach((ele) => {
+                count.push(ele.parentElement.parentElement.children[4].innerText)
+                ele.checked = true
+            })
+            totalMoney.innerHTML = `Tổng tiền : ${count.reduce((init,value)=>Number(init)+Number(value),0)}`
+
+
+        })
+    }
+    if (clear) {
+        clear.addEventListener('click', function() {
+            clear.style.display = "none"
+            choose.style.display = "inline-block"
+            checkbox.forEach((ele) => {
+                if (ele.checked === true) {
+                    ele.checked = false;
+                }
+                ele.checked = false
+                totalMoney.innerHTML = `Tổng tiền : 0`
+            })
+        })
+    }
 </script>

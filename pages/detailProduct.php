@@ -1,12 +1,13 @@
 <?php
+ if (session_id() === '') session_start();
 // public/img/clock6.jpg
 require "database/get.php";
 require "database/add.php";
 $id = $_GET['id'];
 $products = getProduct();
-if(isset($_COOKIE['id'])){
+if(isset($_SESSION['id'])){
 
-    $userId = $_COOKIE['id'];
+    $userId = $_SESSION['id'];
     $user = getUserById($userId);
 }
 $comments = getComment($id);
@@ -17,7 +18,7 @@ $notify = "";
 if (isset($_POST['sendComment'])) {
     //    var_dump($product);
 
-    if (isset($_COOKIE['username'])) {
+    if (isset($_SESSION['username'])) {
         $productId = $products[0]['maHangHoa'];
         $content = $_POST['content'];
         if ($content === "") {

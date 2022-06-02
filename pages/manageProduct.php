@@ -1,4 +1,5 @@
 <?php
+require "./lib/extention.php";
 if (!isset($_SESSION['username']) || !$_SESSION['username'] === "admin") {
     die("không thể truy cập");
 }
@@ -19,14 +20,7 @@ if (isset($_POST['submit'])) {
     } else {
     }
 }
-function isRequired($element)
-{
-    return !$element ? true : false;
-}
-function isNumber($num)
-{
-    return preg_match('/^[a-zA-Z0-9]*$/', $num) && $num > 0 ? true : false;
-}
+
 
 if ($state === true) {
     $fullname = $_POST['fullname'];

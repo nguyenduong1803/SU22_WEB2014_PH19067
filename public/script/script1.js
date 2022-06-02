@@ -41,7 +41,7 @@ function alerts() {
     }
 }
 function start() {
-    getTime();
+    // getTime();
     alerts();
     toggle();
 }
