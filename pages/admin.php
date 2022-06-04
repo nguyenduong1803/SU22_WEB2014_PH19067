@@ -27,6 +27,7 @@
             <div class="nav-item col-lg-12 btn-add"><a href="?page=manageCustomer" class="nav-link links add font-weight-bold text-uppercase">Quản lý đơn hàng</a></div>
         </sestion>
         <button class="btn btn-success logout "><a href="?page=login&&logout=true" class="white">Đăng xuất</a> </button>
+        <button class="btn btn-success logout "><a href="?page=login&&logout=true" class="white">Đăng xuất</a> </button>
 
     </div>
 
