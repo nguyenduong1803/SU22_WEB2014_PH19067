@@ -79,8 +79,8 @@ if ($state === true) {
             // insert Products
             if ($path != false) {
                 move_uploaded_file($file['tmp_name'], $path);
-                $product  = "INSERT INTO `hanghoa` (`tenHangHoa`, `moTa`, `donGia`,`hinhAnh`, `maLoaiHang`,`trangThai`,`mucGiamGia`)
-                VALUES (' {$fullname}','{$description}' ,'{$price}','{$path}',' {$category}','{$status}', '{$discount}')";
+                $product  = "INSERT INTO `hanghoa` (`tenHangHoa`, `moTa`, `donGia`,`hinhAnh`, `maLoaiHang`,`trangThai`,`mucGiamGia`,`ngayNhap`)
+                VALUES (' {$fullname}','{$description}' ,'{$price}','{$path}',' {$category}','{$status}', '{$discount}',now())";
                 db_insert($product);
                 $notify = "thêm Thành công";
                 header("Location:?page=manageProduct");

@@ -28,7 +28,7 @@ function getProductById($id)
     } else {
 
         $list = [];
-        $sql = "SELECT * FROM `hanghoa` WHERE maHangHoa={$id}";
+        $sql = "SELECT * FROM `hanghoa` WHERE maHangHoa='{$id}'";
         $result = db_select($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {

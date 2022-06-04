@@ -1,38 +1,56 @@
 <?php
 require "database/get.php";
 require "./lib/extention.php";
+$listQuantity = [];
 if (isset($_GET['listId'])) {
     $listId = $_GET['listId'];
     $listQuantity = explode(',',  $_GET['q']);
     $products = getProductByListId($listId);
 }
-$totalMoney = array_reduce($products, function ($init, $value) {
-    if ($value['mucGiamGia'] != 0) {
-        return $init + $value['donGia'] * (100 - $value['mucGiamGia']) / 100;
-    }
-}, 0);
+
+$totalMoney = 0;
+foreach ($products as $key => $value) {
+    $totalMoney += $value['donGia'] * (100 - $value['mucGiamGia']) / 100 * $listQuantity[$key];
+}
 $error = [];
 if (isset($_POST['btn_checkout'])) {
     $user = $_POST['user'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     $note = $_POST['note'];
-    $office = $_POST['office'];
+    if (isset($_POST['office'])) {
+        $office = $_POST['office'];
+        if (isRequired($office)) {
+            $error['office']  =  "Vui lòng chọn nơi nhận hàng";
+        }
+    }
     if (isRequired($user)) {
         $error['user'] = "Vui lòng nhập tên khách hàng";
     } else if (strlen($user) < 6) {
         $error['user']  =  "Vui lòng điền tên khách hàng lớn hơn 6 kí tự";
     }
     if (!isNumber($phone)) {
-        $error['phone']  =  "Vui lòng nhập số dương";
+        $error['phone']  =  "Vui lòng nhập đúng số điện thoại";
     }
     if (isRequired($address)) {
         $error['address'] = "Vui lòng nhập địa chỉ khách hàng";
     } else if (strlen($address) < 10) {
         $error['address']  =  "Vui lòng điền tên khách hàng lớn hơn 10 kí tự";
     }
-    if (isRequired($office)) {
-        $error['office']  =  "Vui lòng chọn nơi nhận hàng";
+    // if (isRequired($office)) {
+    //     $error['office']  =  "Vui lòng chọn nơi nhận hàng";
+    // }
+    if (empty($error)) {
+        echo "Đặt hàng thành công";
+        foreach ($products as $key => $value) {
+            // $slq2="INSERT INTO `chitiethd` ( `maHangHoa`, `soLuong`, `soTien`) VALUES ('3', $listQuantity[$key],$value[$key])*$value['mucGiamGia'] ";
+
+        }
+        $sql = "INSERT INTO `hoadon` ( `maChiTiet`, `ngayMua`, `maKh`, `trangThai`, `tongThanhToan`)
+         VALUES ( '1', '22/12/2022', '3', 'đã thanh toán', '1300000');";
+        $slq2 = "INSERT INTO `chitiethd` ( `maHangHoa`, `soLuong`, `soTien`) VALUES ('3', '1', '1200000');";
+    } else {
+        echo "Đặt hàng thất bại";
     }
 }
 
@@ -88,32 +106,27 @@ if (isset($_POST['btn_checkout'])) {
     <h4>Thông tin nhận hàng</h4>
     <form class="row" method="POST">
         <div class="col-lg-5">
-
             <div class="form-group">
                 <label for="exampleInputtext1">Họ và tên</label>
                 <input type="text" class="form-control" name="user" placeholder="Họ và tên">
                 <div class="notify"><?php echo !empty($error['user']) ? $error['user'] : ""; ?></div>
-
             </div>
-
             <div class="form-group">
                 <label for="exampleInputtext1">Số điện thoại</label>
                 <input type="text" class="form-control" name="phone" placeholder="Số điện thoại">
-            <div class="notify"><?php echo !empty($error['phone']) ? $error['phone'] : ""; ?></div>
+                <div class="notify"><?php echo !empty($error['phone']) ? $error['phone'] : ""; ?></div>
 
             </div>
             <div class="form-group">
                 <label for="address" class="d-block text_address">Tỉnh/Thành phố, Quận/Huyện, Xã/Phường </label>
-                <textarea type="text" id="address" class="" name="address" placeholder="Địa chỉ">
-                </textarea>
+                <textarea type="text" id="address" class="" name="address" placeholder="Địa chỉ"></textarea>
                 <div class="notify"><?php echo !empty($error['address']) ? $error['address'] : ""; ?></div>
 
             </div>
 
             <div class="form-group">
                 <label for="note">Ghi chú</label>
-                <textarea type="text" id="address" class="" name="note" placeholder="Ghi chú">
-                </textarea>
+                <textarea type="text" id="address" class="" name="note" placeholder="Ghi chú"></textarea>
             </div>
 
             <div class="d-flex">
