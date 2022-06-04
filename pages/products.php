@@ -1,13 +1,15 @@
 <?php
 require "database/get.php";
 $products = getProduct();
+
 ?>
 
+
 <style>
-   .banner_img {
-        height: auto;
-        max-height: 600px;
-    }
+  .banner_img {
+    height: auto;
+    max-height: 600px;
+  }
 
 
   .products-title {
@@ -66,9 +68,17 @@ $products = getProduct();
 
   .seller-item:hover>.seller_hover {
     filter: opacity(0.6);
-    box-shadow: 0px 2px 10px rgba(87, 86, 86, 0.4);
+    box-shadow: 5px 8px 12px rgba(87, 86, 86, 0.6);
     cursor: pointer;
     transition: all 0.9s;
+  }
+
+  .seller_hover {
+    border-radius: 4px;
+    box-shadow: 0px 2px 6px rgba(87, 86, 86, 0.3);
+    display: block;
+    width: 100%;
+    height: 100% !important;
   }
 
   .seller-item h2 {
@@ -87,17 +97,21 @@ $products = getProduct();
     color: #f97e6c;
     margin-bottom: 10px;
   }
-@keyframes flash {
-  0%{
-    color:#fff
+
+  @keyframes flash {
+    0% {
+      color: #fff
+    }
+
+    50% {
+      color: #fce9ff;
+    }
+
+    100% {
+      color: #f86363;
+    }
   }
-  50%{
-    color:#fce9ff;
-  }
-  100%{
-    color: #f86363;
-  }
-}
+
   @keyframes mymove {
     from {
       opacity: 0;
@@ -124,10 +138,12 @@ $products = getProduct();
     padding: 3px;
     animation: mymove 0.3s linear;
   }
-.eye{
-position: relative;
-top: -3px;
-}
+
+  .eye {
+    position: relative;
+    top: -3px;
+  }
+
   .add-cart {
     display: none;
     background-color: #fff;
@@ -171,8 +187,8 @@ top: -3px;
 
   .sale {
     position: absolute;
-    top: 5px;
-    left: 17px;
+    top: 6px;
+    left: 6px;
     padding: 3px;
     line-height: 1.5;
     font-size: 15px;
@@ -180,7 +196,7 @@ top: -3px;
     font-family: 'Montserrat', sans-serif;
     color: #fff;
     border-radius: 2px;
-    animation:flash infinite 1.4s ;
+    animation: flash infinite 1.4s;
   }
 
   .manClock.active {
@@ -448,9 +464,204 @@ top: -3px;
   .product__img {
     width: 100%;
     height: 80%;
+    border-radius: 4px;
     object-fit: contain;
     transition: all 0.9s;
 
+  }
+
+  #toast {
+    position: relative;
+    visibility: hidden;
+    max-width: 60px;
+    height: 60px;
+    /*margin-left: -125px;*/
+    margin: auto;
+    background-color: rgb(40 167 69 / 90%);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
+    position: fixed;
+    z-index: 6;
+    top: 100px;
+    right: 20px;
+    font-size: 17px;
+    white-space: nowrap;
+  }
+  .toast_close{
+    top: 10px;
+    right: 10px;
+    line-height:2.1rem;
+    position: absolute;
+    transition:1s;
+
+  }
+  #toast #img {
+    width: 60px;
+    height: 60px;
+    float: left;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+    background-color: rgb(40 167 69 / 80%);
+    color: #fff;
+  }
+
+  #toast #desc {
+    color: #fff;
+    padding: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  #toast.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 2s;
+    animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s;
+  }
+
+  .toast_icon {
+    font-size: 2rem;
+    line-height: 1.5rem;
+  }
+
+
+
+  #toast2 {
+    position: relative;
+    visibility: hidden;
+    max-width: 60px;
+    height: 60px;
+    /*margin-left: -125px;*/
+    margin: auto;
+    background-color: rgb(220 53 69 / 90%);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
+    position: fixed;
+    z-index: 6;
+    top: 100px;
+    right: 20px;
+    font-size: 17px;
+    white-space: nowrap;
+  }
+  #toast2 #img2 {
+    width: 60px;
+    height: 60px;
+    float: left;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+    background-color: rgb(220 53 69 / 80%);
+    color: #fff;
+  }
+
+  #toast2 #desc2 {
+    color: #fff;
+    padding: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  #toast2.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 2s;
+    animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s;
+  }
+  @-webkit-keyframes fadein {
+    from {
+      bottom: 0;
+      opacity: 0;
+    }
+
+    to {
+      bottom: 30px;
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadein {
+    from {
+      bottom: 0;
+      opacity: 0;
+    }
+
+    to {
+      bottom: 30px;
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes expand {
+    from {
+      min-width: 50px
+    }
+
+    to {
+      min-width: 350px
+    }
+  }
+
+  @keyframes expand {
+    from {
+      min-width: 50px
+    }
+
+    to {
+      min-width: 350px
+    }
+  }
+
+  @-webkit-keyframes stay {
+    from {
+      min-width: 350px
+    }
+
+    to {
+      min-width: 350px
+    }
+  }
+
+  @keyframes stay {
+    from {
+      min-width: 350px
+    }
+
+    to {
+      min-width: 350px
+    }
+  }
+
+  @-webkit-keyframes shrink {
+    from {
+      min-width: 350px;
+    }
+
+    to {
+      min-width: 50px;
+    }
+  }
+
+  @keyframes shrink {
+    from {
+      min-width: 350px;
+    }
+
+    to {
+      min-width: 50px;
+    }
+  }
+  @keyframes out {
+    from {
+     right: 10px;
+    }
+
+    to {
+      right: -100px;
+
+    }
   }
 </style>
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
@@ -511,12 +722,19 @@ top: -3px;
         ?>
           <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="seller-item ">
-              <a href="?page=detailProduct&&id=<?php echo $value['maHangHoa'] ?>" class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </a>
+              <a href="?page=detailProduct&&id=<?php echo $value['maHangHoa'] ?>" class="seller_hover">
+                <img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt="">
+              </a>
+
+
+
               <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
               <span class="minusPrice"><?php echo $value['donGia'] ?></span>
-              <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
+              <p class="money"><?php echo $value['donGia'] * (100 - $value['mucGiamGia']) ?><u>đ</u></p>
               <ion-icon class="shows" name="eye-outline"></ion-icon>
-              <a class="add-cart" href="?page=cart&&addCart=<?php echo $value['maHangHoa'] ?>"><ion-icon class="eye" name="cart-outline"></ion-icon></a>
+              <a class="add-cart" href="?page=cart&&addCart=<?php echo $value['maHangHoa'] ?>">
+                <ion-icon class="eye" name="cart-outline"></ion-icon>
+              </a>
               <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
             </div>
           </div>
@@ -525,6 +743,7 @@ top: -3px;
         }
         ?>
       </div>
+
 
     </div>
     <div class="feman-seller">
@@ -541,7 +760,16 @@ top: -3px;
     </div>
   </div>
 </div>
-
+<div id="toast">
+  <div id="img"><i class="fa-solid fa-check toast_icon"></i></div>
+  <div id="desc">Đã thêm vào giỏ hàng</div>
+  <i class="fa-solid fa-xmark toast_close"></i>
+</div>
+<div id="toast2">
+  <div id="img2"><i class="fa-solid fa-triangle-exclamation toast_icon"></i></i></div>
+  <div id="desc2">Sản phẩm đã có trong giỏ hàng</div>
+  <i class="fa-solid fa-xmark toast_close"></i>
+</div>
 <!-- <div class="details">
   <div class="detail__product">
     <ion-icon class="details__close" name="close-outline"></ion-icon>
@@ -575,7 +803,27 @@ top: -3px;
     </div>
   </div>
 </div> -->
+<script type="text/javascript">
+  function launch_toast(toast) {
+    var x = document.getElementById(toast)
+    x.className = "show";
+    setTimeout(function() {
+      x.className = x.className.replace("show", "");
 
-<script>
+    }, 5000);
+    setTimeout(function() {
+    const close= document.querySelectorAll(".toast_close").forEach((item)=>{
+      item.style.display = "none";
+    })
+    },3000)
+  }
+  <?php
+  if (isset($_GET['sussec']) && $_GET['sussec']==="true") {
+    echo "launch_toast('toast')";
+    // echo "thành công";
+  }elseif(isset($_GET['sussec']) && $_GET['sussec']==="false"){
+    echo "launch_toast('toast2')";
 
+  }
+  ?>
 </script>

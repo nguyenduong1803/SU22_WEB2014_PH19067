@@ -4,6 +4,7 @@
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +12,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assigment giai đoạn 1</title>
+    <title>Dự Án Mẫu</title>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/45281df593.js" crossorigin="anonymous"></script>
@@ -29,6 +30,8 @@
         }
         .nav_ul{
             height: 60px;
+        }.ul_mynav{
+            background-color: #fff;
         }
     </style>
     <div class="bigs">
@@ -39,7 +42,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse nav_ul" id="navbarNavAltMarkup">
-                        <ul class="navbar-nav mx-auto ">
+                        <ul class="navbar-nav mx-auto ul_mynav">
                             <!-- Megamenu-->
                             <li class="nav-item"><a href="?page=home" class="nav-link links font-weight-bold text-uppercase">Trang chủ</a></li>
                             <!-- <li class="nav-item"><a href="?page=recomand" class="nav-link links font-weight-bold text-uppercase">Giới thiệu</a></li> -->

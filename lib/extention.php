@@ -19,4 +19,18 @@ function isNumber($num)
 {
     return preg_match('/^[a-zA-Z0-9]*$/', $num) && $num > 0 ? true : false;
 }
-?>
+
+function saveCookie($id,$name,$time){
+    $saveCookie = $id;
+    if ($saveCookie != "" && isset($_COOKIE[$name]) && $_COOKIE[$name] != "null") {
+        $getCookie = json_decode($_COOKIE[$name]);
+        array_push($getCookie, $saveCookie);
+        $newArr = array_unique($getCookie);
+        setcookie($name, json_encode($newArr),time()+$time);
+        // header("Location:?page=products&sussec=true");
+    } else {
+        setcookie($name, json_encode(array($saveCookie)),time()+$time);
+        // header("Location:?page=products&sussec=true");
+
+    }
+}

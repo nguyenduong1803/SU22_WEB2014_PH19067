@@ -11,7 +11,6 @@ function db_insert($sql)
         echo "kết nối thất bại";
     } else {
         if ($conn->query($sql)===true) {
-            echo "đã thêm vào danh sách";
         } else {
             echo "thất bại". mysqli_error($conn);
         }

@@ -4,43 +4,47 @@ require "database/get.php";
 // var_dump(array_unique($arr));
 if (isset($_GET['addCart'])) {
     $productId = $_GET['addCart'];
+    // echo $productId;
     $saveCookie = (int)$productId;
     if ($saveCookie != "" && isset($_COOKIE['list']) && $_COOKIE['list'] != "null") {
         $getCookie = json_decode($_COOKIE['list']);
-        array_push($getCookie, $saveCookie);
-        $newArr = array_unique($getCookie);
-        setcookie("list", json_encode($newArr));
-        header("Location:?page=products&sussec=true");
+        if (in_array($saveCookie, $getCookie)) {
+            header("Location:?page=products&sussec=false");
+        } else {
+            array_push($getCookie, $saveCookie);
+            $newArr = array_unique($getCookie);
+            setcookie("list", json_encode($newArr));
+            header("Location:?page=products&sussec=true");
+        }
     } else {
         setcookie("list", json_encode(array($saveCookie)));
         header("Location:?page=products&sussec=true");
-
     }
 }
-$products = [];
+
 if (isset($_COOKIE['list'])) {
+    $products = [];
     $getCookie = json_decode($_COOKIE['list']);
     $products = getProductById($getCookie);
 }
-if(isset($_POST['checkout'])){
-    $arrId=[];
-    $arrQuantity=[];
+if (isset($_POST['checkout'])) {
+    $arrId = [];
+    $arrQuantity = [];
     foreach ($products as $key => $value) {
-        if(isset($_POST["checkProduct{$key}"])){
+        if (isset($_POST["checkProduct{$key}"])) {
             echo $_POST["checkProduct{$key}"];
-            array_push($arrId,(int)$_POST["checkProduct{$key}"]);
-            array_push($arrQuantity,(int)$_POST["quantity{$key}"]);
+            array_push($arrId, (int)$_POST["checkProduct{$key}"]);
+            array_push($arrQuantity, (int)$_POST["quantity{$key}"]);
         }
     }
-    if(count($arrId)>0){
-        $listId = implode(",",$arrId);
-        $quantity = implode(",",$arrQuantity);
+    if (count($arrId) > 0) {
+        $listId = implode(",", $arrId);
+        $quantity = implode(",", $arrQuantity);
         header("Location:?page=checkout&listId={$listId}&q={$quantity}");
-    }else{
-        
+    } else {
     }
     var_dump($arrId);
-   
+
     echo "click";
 }
 
@@ -145,7 +149,6 @@ if(isset($_POST['checkout'])){
     .clearAll {
         display: none;
     }
-    
 </style>
 
 <div class="container">
@@ -155,7 +158,7 @@ if(isset($_POST['checkout'])){
             <li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
         </ol>
     </nav>
-    <form action="" method ="POST">
+    <form action="" method="POST">
         <table class="table">
             <thead>
                 <tr>
@@ -173,7 +176,7 @@ if(isset($_POST['checkout'])){
                     foreach ($products as $key => $value) {
                 ?>
                         <tr>
-                            <td class="td_child"><input onClick="handle(this)" class="form-check-input check"name="checkProduct<?php echo $key ?>" type="checkbox" value="<?php echo $value['maHangHoa'] ?>" id="flexCheckDefault"></td>
+                            <td class="td_child"><input onClick="handle(this)" class="form-check-input check" name="checkProduct<?php echo $key ?>" type="checkbox" value="<?php echo $value['maHangHoa'] ?>" id="flexCheckDefault"></td>
                             <td><img class="mini-img" src="<?php echo $value['hinhAnh'] ?>" alt=""></td>
                             <td><?php echo $value['tenHangHoa'] ?></td>
 
@@ -193,7 +196,7 @@ if(isset($_POST['checkout'])){
             <div class="btn btn-success clearAll">Bỏ chọn tất cả</div>
             <div class="btn btn-success totalMoney ">Tổng tiền : </div>
         </div>
-        <button type="submit" name="checkout"  class="btn btn-success">Tiến hành thanh toán</button>
+        <button type="submit" name="checkout" class="btn btn-success">Tiến hành thanh toán</button>
     </form>
 
 </div>
@@ -217,11 +220,8 @@ if(isset($_POST['checkout'])){
                 count = eles.parentElement.parentElement.children[4].innerText;
                 console.log(count);
             }
-
         }
         totalMoney.innerHTML = `Tổng tiền : ${count}`
-
-
     })
     if (choose) {
         choose.addEventListener('click', function() {
@@ -234,8 +234,6 @@ if(isset($_POST['checkout'])){
                 ele.checked = true
             })
             totalMoney.innerHTML = `Tổng tiền : ${count.reduce((init,value)=>Number(init)+Number(value),0)}`
-
-
         })
     }
     if (clear) {

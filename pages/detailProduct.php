@@ -1,23 +1,56 @@
 <?php
- if (session_id() === '') session_start();
+if (session_id() === '') session_start();
 // public/img/clock6.jpg
 require "database/get.php";
 require "database/add.php";
+require "./lib/extention.php";
+$ip;
+if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+    $ip = $_SERVER['HTTP_CLIENT_IP'];
+} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+} else {
+    $ip = $_SERVER['REMOTE_ADDR'];
+}
 $id = $_GET['id'];
-$products = getProduct();
-if(isset($_SESSION['id'])){
-
+if (isset($_SESSION['id'])) {
     $userId = $_SESSION['id'];
     $user = getUserById($userId);
 }
 $comments = getComment($id);
 $showProduct = getProductById($id);
+$products = getProduct();
+
+if (isset($_COOKIE[$id])) {
+    $userIp = json_decode($_COOKIE[$id]);
+    foreach ($userIp as $key => $value) {
+        if ($value != $ip) {
+            $view = $showProduct[0]['soLuotXem'];
+            $newView = (int)$view + 1;
+            echo $newview;
+
+            $sql = "UPDATE `hanghoa` SET `soLuotXem` = {$newView} WHERE `hanghoa`.`maHangHoa` = {$id}";
+            db_insert($sql);
+            saveCookie($ip, $id, 10);
+        }
+    }
+} else {
+    $view = $showProduct[0]['soLuotXem'];
+    $newView = (int)$view + 1;
+    $sql = "UPDATE `hanghoa` SET `soLuotXem` = {$newView} WHERE `hanghoa`.`maHangHoa` = {$id}";
+    db_insert($sql);
+    saveCookie($ip, $id, 30);
+}
+// $sqlView = "SELECT soLuotxem FROM hanghoa where maHangHoa= {$id}";
+
+
+// setcookie($id,$ip,time()+36);
+
 // print_r(getdate());
 // $product = getProductById(1);
 $notify = "";
 if (isset($_POST['sendComment'])) {
     //    var_dump($product);
-
     if (isset($_SESSION['username'])) {
         $productId = $products[0]['maHangHoa'];
         $content = $_POST['content'];
@@ -49,17 +82,14 @@ if (isset($_POST['sendComment'])) {
     .descript_product {
         margin: 40px auto;
     }
-
     .text-bold {
         font-weight: 700;
     }
-
     .price__product {
         font-weight: 700;
         color: #f97e6c;
         font-size: 2rem;
     }
-
     .quantity {
         display: inline-block;
         padding: 0.375rem 0.75rem;
@@ -248,19 +278,23 @@ if (isset($_POST['sendComment'])) {
         color: #f97e6c;
         margin-bottom: 10px;
     }
-    .form_cmt{
+
+    .form_cmt {
         margin: 12px;
     }
-    .cmt_input{
+
+    .cmt_input {
         margin-right: 24px;
     }
-    .wrap_content{
+
+    .wrap_content {
         background-color: #F5F5F5;
         border-radius: 20px;
         width: 100%;
-        padding:12px;
+        padding: 12px;
         margin-left: 10px;
     }
+
     @keyframes flash {
         0% {
             color: #fff
@@ -335,7 +369,8 @@ if (isset($_POST['sendComment'])) {
         height: 40px;
         border-radius: 50%;
     }
-    .avatar_bot{
+
+    .avatar_bot {
         position: relative;
         top: 4px;
     }
@@ -350,7 +385,8 @@ if (isset($_POST['sendComment'])) {
     .seller_hover {
         position: relative;
     }
-    .text_avatar{
+
+    .text_avatar {
         /* margin: 0 12px; */
         font-weight: 400;
     }
@@ -509,10 +545,7 @@ if (isset($_POST['sendComment'])) {
                 <?php
                 }
                 // }
-
                 ?>
-
-
             </div>
         </div>
 
@@ -536,7 +569,7 @@ if (isset($_POST['sendComment'])) {
                         </a>
                         <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
                         <span class="minusPrice"><?php echo $value['donGia'] ?></span>
-                        <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
+                        <p class="money"><?php echo $value['donGia'] * (100 - $value['mucGiamGia']) ?><u>đ</u></p>
                         <ion-icon class="shows" name="eye-outline"></ion-icon>
                         <ion-icon class="add-cart" name="cart-outline"></ion-icon>
                     </div>
