@@ -7,12 +7,13 @@ if (isset($_GET['addCart'])) {
     // echo $productId;
     $saveCookie = (int)$productId;
     if ($saveCookie != "" && isset($_COOKIE['list']) && $_COOKIE['list'] != "null") {
-        $getCookie = json_decode($_COOKIE['list']);
+        (array)$getCookie = json_decode($_COOKIE['list'],true);
         if (in_array($saveCookie, $getCookie)) {
             header("Location:?page=products&sussec=false");
         } else {
             array_push($getCookie, $saveCookie);
             $newArr = array_unique($getCookie);
+            var_dump($newArr);
             setcookie("list", json_encode($newArr));
             header("Location:?page=products&sussec=true");
         }
@@ -22,9 +23,9 @@ if (isset($_GET['addCart'])) {
     }
 }
 
+$products = [];
 if (isset($_COOKIE['list'])) {
-    $products = [];
-    $getCookie = json_decode($_COOKIE['list']);
+    (array)$getCookie = json_decode($_COOKIE['list'],true);
     $products = getProductById($getCookie);
 }
 if (isset($_POST['checkout'])) {

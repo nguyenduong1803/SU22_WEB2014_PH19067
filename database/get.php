@@ -25,7 +25,7 @@ function getProductById($id)
             }
         }
         return $list;
-    } else {
+    } elseif($id) {
 
         $list = [];
         $sql = "SELECT * FROM `hanghoa` WHERE maHangHoa='{$id}'";
@@ -36,6 +36,8 @@ function getProductById($id)
             }
         }
         return $list;
+    }else{
+        return [];
     }
 }
 function getProductByListId($list)

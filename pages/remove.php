@@ -20,38 +20,36 @@ if (isset($_GET['remove'])) {
     removeProduct($id, $img);
 } else if (isset($_GET['categoryID'])) {
     $id = $_GET['categoryID'];
-    db_remove($id, "loaiHang", "maLoaiHang", "manageCategory","=");
+    db_remove($id, "loaiHang", "maLoaiHang", "manageCategory", "=");
 } else if (isset($_REQUEST['q'])) {
     $listID = $_REQUEST['q'];
     $id =  " {$listID}";
     echo $id;
-    db_remove($id, "loaiHang", "maLoaiHang", "manageCategory","in");
-}else if(isset($_GET['removeCmt'])){
+    db_remove($id, "loaiHang", "maLoaiHang", "manageCategory", "in");
+} else if (isset($_GET['removeCmt'])) {
     $id = $_GET['removeCmt'];
     $productId = $_GET['productId'];
-    db_remove($id, "binhluan", "maBinhLuan", "manageComments&&id={$productId}","=");
-
-}else if(isset($_GET['removeCookie'])){
-    $getCookie = json_decode($_COOKIE['list']);
-    var_dump($getCookie);
-    $index =array_search((int)$_GET['removeCookie'],$getCookie);
+    db_remove($id, "binhluan", "maBinhLuan", "manageComments&&id={$productId}", "=");
+} else if (isset($_GET['removeCookie'])) {
+    (array)$getCookie = json_decode($_COOKIE['list'],true);
+    $index = array_search((int)$_GET['removeCookie'],  (array)$getCookie);
     unset($getCookie[$index]);
-    setcookie("list", json_encode($getCookie));
+    $newArr = array_unique($getCookie);
+    setcookie("list", json_encode($newArr));
     header("Location:?page=cart");
-    
 }
 
 
-function db_remove($id, $table, $nameID, $to,$char)
+function db_remove($id, $table, $nameID, $to, $char)
 {
     $conn = new mysqli("localhost", "root", "", "xshop");
     if ($conn->connect_error) {
         echo "kết nối thất bại";
     } else {
-        if ($char==="in"){
+        if ($char === "in") {
             $newId = "($id)";
-        }else{
-            $newId =$id;
+        } else {
+            $newId = $id;
         }
         $sql = "DELETE FROM {$table} WHERE `{$table}`.`{$nameID}` $char {$newId}";
         echo $sql;
