@@ -92,7 +92,7 @@ if (isset($_POST['subPass'])) {
 
     ?>
         <form class="form" method="POST" enctype="multipart/form-data">
-            <h2>Chang infomation</h2>
+            <h2>Change infomation</h2>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Username</label>
                 <input type="text" name="username" value="<?php echo $user[0]['tenKh']; ?>" class="form-control" id="exampleInputEmail1" placeholder=" username">
@@ -138,7 +138,7 @@ if (isset($_POST['subPass'])) {
 
 </div>
 <form class="form" method="POST">
-    <h2>Chang password</h2>
+    <h2>Change password</h2>
     <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Old Password</label>
         <input type="password" name="oldPassword" class="form-control" placeholder="Old password">

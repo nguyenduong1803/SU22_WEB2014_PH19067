@@ -25,6 +25,7 @@ if ($state === true) {
 }
 
 
+
 ?>
 <style>
     .form {
@@ -77,7 +78,7 @@ if ($state === true) {
         box-shadow: 2px 4px 7px rgb(46 44 44 / 60%)
     }
 
-  
+
 
     td {
         border: 1px solid #fff;
@@ -89,7 +90,8 @@ if ($state === true) {
     }
 
 
-    th:nth-child(1),th:nth-child(2) {
+    th:nth-child(1),
+    th:nth-child(2) {
         width: 60px;
     }
 
@@ -107,16 +109,16 @@ if ($state === true) {
 
     .th_action {
         width: 40px;
-        
+
     }
 
     .td_child {
         position: relative;
     }
-
 </style>
 <div class="form__conatiner">
     <div class="container">
+        <h2>Hóa Đơn</h2>
         <table class="table">
             <thead>
                 <tr>
@@ -144,14 +146,14 @@ if ($state === true) {
                             <td><?php echo $value['ghiChu'] ?></td>
                             <td><?php echo $value['noiNhan'] ?></td>
                             <td><?php echo $value['tongThanhToan'] ?> đ</td>
-                            <td><a href="?page=manageComments&&id=<?php echo $value['maHoaDon'] ?>" class="btn btn-success"><i class="fa-solid fa-eye"></i> Chi tiết</a></td>
+                            <td><a href="?page=manageInvoice&&hoaDon=<?php echo $value['maHoaDon'] ?>" class="btn btn-success"><i class="fa-solid fa-eye"></i> Chi tiết</a></td>
                             <td class="">
                                 <a href="?page=editUser&&userEdit=<?php echo $value['maKh'] ?>" class="btn-action btn-success btn--edit ">
                                     <i class="fa-solid fa-pen-to-square green"></i>
                                 </a>
                             </td>
-                            
-              
+
+
                         </tr>
                         <!-- database/remove.php?remove=<?php echo $value['maHangHoa'] ?> -->
                 <?php
@@ -160,34 +162,40 @@ if ($state === true) {
                 ?>
             </tbody>
         </table>
-      
+
         <div class="demo"></div>
+        <h2>Hóa Đơn Chi Tiết</h2>
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Check</th>
-                    <th scope="col">Mã bình luận</th>
-                    <th scope="col">Nội dung</th>
-                    <th scope="col">Mã khách hàng</th>
-                    <th scope="col">Mã hàng hóa</th>
-                    <th scope="col" class="color-white th_action">Action</th>
+                    <th scope="col">Mã Hóa Đơn</th>
+                    <th scope="col">Mã Chi Tiết</th>
+                    <th scope="col">Mã Hàng Hóa</th>
+                    <th scope="col">Số Lượng</th>
+                    <th scope="col">Số tiền</th>
+                    <th scope="col">Action</th>
 
                 </tr>
             </thead>
             <tbody>
                 <?php
-                if (!empty($list)) {
-                    foreach ($comments as $key => $value) {
+
+                if (isset($_GET['hoaDon'])) {
+                    $hoaDonId = $_GET['hoaDon'];
+                    $invoice = getDetailIvoice($hoaDonId);
+                    foreach ($invoice as $key => $value) {
                 ?>
                         <tr>
-                            <td class="td_child"><input class="form-check-input check" type="checkbox" value="" id="flexCheckDefault"></td>
-                            <td><?php echo $value['maBinhLuan'] ?></td>
-
-                            <td><?php echo $value['noiDung'] ?></td>
-                            <td><?php echo $value['maKh'] ?></td>
+                            <td><?php echo $value['maHoaDon'] ?></td>
+                            <td><?php echo $value['maChitiet'] ?></td>
                             <td><?php echo $value['maHangHoa'] ?></td>
-                            <td class=""> <a class="btn-action btn--remove " href="?page=remove&&removeCmt=<?php echo $value['maBinhLuan'] ?>&&productId=<?php echo $value['maHangHoa'] ?>">
-                                    <i class="fa-solid fa-circle-xmark red "></i><span class="color-white">remove</span></a></td>
+                            <td><?php echo $value['soLuong'] ?></td>
+                            <td><?php echo $value['soTien'] ?></td>
+                            <td class="">
+                                <a href="?page=editUser&&detail=<?php echo $value['maChitiet'] ?>" class="btn-action btn-success btn--edit ">
+                                    <i class="fa-solid fa-pen-to-square green"></i>
+                                </a>
+                            </td>
                         </tr>
                         <!-- database/remove.php?remove=<?php echo $value['maHangHoa'] ?> -->
                 <?php
@@ -196,10 +204,10 @@ if ($state === true) {
                 ?>
             </tbody>
         </table>
-      
+
     </div>
 </div>
 
 <script type="text/javascript">
-    
+
 </script>
