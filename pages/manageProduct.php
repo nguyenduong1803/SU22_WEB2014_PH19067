@@ -152,11 +152,11 @@ if ($state === true) {
     }
 
     td {
-        border: 1px solid #fff;
+        border: 1px solid #000;
     }
 
     th {
-        border: 1px solid #fff;
+        border: 1px solid #000;
         text-align: center;
     }
 

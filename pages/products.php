@@ -62,6 +62,7 @@ $products = getProduct();
     position: relative;
     height: auto;
     text-align: center;
+    margin-top: 24px;
   }
 
 
@@ -570,6 +571,24 @@ $products = getProduct();
     -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 2s;
     animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s;
   }
+  .btn-checkout{
+    display:block;
+    background-color: #f97e6c;
+    color:#fff;
+    width: 130px;
+    height: 30px;
+    text-align: center;
+    margin: 10px auto 0px auto;
+    text-decoration: none;
+    border-radius: 2px;
+  }
+  .btn-checkout:hover{
+    color:#fff;
+    background-color: #f97e6cc4;
+  }
+  #title_name{
+    margin: 10px 0 6px 0;
+  }
   @-webkit-keyframes fadein {
     from {
       bottom: 0;
@@ -725,17 +744,15 @@ $products = getProduct();
               <a href="?page=detailProduct&&id=<?php echo $value['maHangHoa'] ?>" class="seller_hover">
                 <img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt="">
               </a>
-
-
-
-              <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
-              <span class="minusPrice"><?php echo $value['donGia'] ?></span>
-              <p class="money"><?php echo $value['donGia'] * (100 - $value['mucGiamGia']) ?><u>đ</u></p>
+              <h2 id="title_name"><?php echo $value['tenHangHoa'] ?></h2>
+              <span class="minusPrice"><?php echo number_format($value['donGia'],0,",",".") ?></span>
+              <p class="money"><?php echo number_format($value['donGia'] * (100 - $value['mucGiamGia'])/100,0,",",".") ?><u>đ</u></p>
               <ion-icon class="shows" name="eye-outline"></ion-icon>
               <a class="add-cart" href="?page=cart&&addCart=<?php echo $value['maHangHoa'] ?>">
                 <ion-icon class="eye" name="cart-outline"></ion-icon>
               </a>
               <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
+              <a href="" class=" btn-checkout">Mua ngay</a>
             </div>
           </div>
 

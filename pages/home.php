@@ -349,6 +349,16 @@ $cateArr = getCategory();
         transition: all 0.9s;
 
     }
+    .minusPrice {
+    display: inline-block;
+    margin-right: 10px;
+    text-decoration: line-through;
+    font-family: 'Montserrat', sans-serif;
+    color: #000;
+    font-weight: 700;
+    opacity: 0.5;
+    font-size: 12px;
+  }
 </style>
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
     <div class="carousel-indicators">
@@ -462,8 +472,8 @@ $cateArr = getCategory();
                     <div class="seller-item ">
                         <a href="?page=detailProduct&&id=<?php echo $value['maHangHoa'] ?>" class="seller_hover"><img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt=""> </a>
                         <h2 id=""><?php echo $value['tenHangHoa'] ?></h2>
-                        <span class="minusPrice"><?php echo $value['donGia'] ?></span>
-                        <p class="money"><?php echo $value['donGia'] ?><u>đ</u></p>
+                        <span class="minusPrice"><?php echo number_format($value['donGia'],0,",",".") ?></span>
+                        <p class="money"><?php echo number_format($value['donGia'] * (100 - $value['mucGiamGia'])/100,0,",",".") ?><u>đ</u></p>
                         <ion-icon class="shows" name="eye-outline"></ion-icon>
                         <a class="add-cart" href="?page=cart&&addCart=<?php echo $value['maHangHoa'] ?>">
                             <ion-icon class="eye" name="cart-outline"></ion-icon>

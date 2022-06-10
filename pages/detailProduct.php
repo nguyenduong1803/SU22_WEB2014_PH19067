@@ -28,10 +28,9 @@ if (isset($_COOKIE[$id])) {
             $view = $showProduct[0]['soLuotXem'];
             $newView = (int)$view + 1;
             echo $newview;
-
             $sql = "UPDATE `hanghoa` SET `soLuotXem` = {$newView} WHERE `hanghoa`.`maHangHoa` = {$id}";
             db_insert($sql);
-            saveCookie($ip, $id, 10);
+            saveCookie($ip, $id, 30);
         }
     }
 } else {

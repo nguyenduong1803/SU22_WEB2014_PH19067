@@ -1,18 +1,21 @@
 <?php
 require "database/get.php";
+require "database/add.php";
 require "./lib/extention.php";
 $listQuantity = [];
+$notify = [];
+$totalMoney = 0;
+$error = [];
+
 if (isset($_GET['listId'])) {
     $listId = $_GET['listId'];
     $listQuantity = explode(',',  $_GET['q']);
     $products = getProductByListId($listId);
+    foreach ($products as $key => $value) {
+        $totalMoney += $value['donGia'] * (100 - $value['mucGiamGia']) / 100 * $listQuantity[$key];
+    }
 }
 
-$totalMoney = 0;
-foreach ($products as $key => $value) {
-    $totalMoney += $value['donGia'] * (100 - $value['mucGiamGia']) / 100 * $listQuantity[$key];
-}
-$error = [];
 if (isset($_POST['btn_checkout'])) {
     $user = $_POST['user'];
     $phone = $_POST['phone'];
@@ -35,22 +38,26 @@ if (isset($_POST['btn_checkout'])) {
     if (isRequired($address)) {
         $error['address'] = "Vui lòng nhập địa chỉ khách hàng";
     } else if (strlen($address) < 10) {
-        $error['address']  =  "Vui lòng điền tên khách hàng lớn hơn 10 kí tự";
+        $error['address']  =  "Vui lòng điền địa chỉ khách hàng lớn hơn 10 kí tự";
     }
     // if (isRequired($office)) {
     //     $error['office']  =  "Vui lòng chọn nơi nhận hàng";
     // }
-    if (empty($error)) {
-        echo "Đặt hàng thành công";
-        foreach ($products as $key => $value) {
-            // $slq2="INSERT INTO `chitiethd` ( `maHangHoa`, `soLuong`, `soTien`) VALUES ('3', $listQuantity[$key],$value[$key])*$value['mucGiamGia'] ";
-
+    if (isset($_SESSION['username'])) {
+        if (empty($error)) {
+            $notify['checkout'] = "Đặt hàng thành công";
+            $totalBill = (int)$totalMoney + 300000;
+            $uniq=uniqid();
+            $sql = "INSERT INTO `hoadon` (`ngayMua`, `maKh`, `trangThai`, `tongThanhToan`, `diaChi`, `tenNguoiNhan`, `soDienThoai`,`ghiChu`,`noiNhan`,`uniqId`) VALUES 
+                     (now(), '{$_SESSION['id']}', 'đang giao hàng', '{$totalBill}', '{$address}', '{$user}', '{$phone}','{$note}','{$office}','{$uniq}');";
+            db_insert($sql);
+            $stringquantity=implode(",", $listQuantity);
+            header("Location:?page=handleClick&phone={$phone}&listId={$listId}&q={$stringquantity}&uniq={$uniq}");
+        } else {
+            $notify['checkout'] = "Đặt hàng thất bại";
         }
-        $sql = "INSERT INTO `hoadon` ( `maChiTiet`, `ngayMua`, `maKh`, `trangThai`, `tongThanhToan`)
-         VALUES ( '1', '22/12/2022', '3', 'đã thanh toán', '1300000');";
-        $slq2 = "INSERT INTO `chitiethd` ( `maHangHoa`, `soLuong`, `soTien`) VALUES ('3', '1', '1200000');";
     } else {
-        echo "Đặt hàng thất bại";
+        header("Location:?page=login");
     }
 }
 
@@ -132,7 +139,7 @@ if (isset($_POST['btn_checkout'])) {
             <div class="d-flex">
                 <div class=" col-lg-6 ">
                     <div class="btn-success btn_address">
-                        <input class="form-check-input" type="radio" name="office" id="home">
+                        <input class="form-check-input" type="radio" name="office" id="home" checked value="nhà riêng">
                         <label class="label_address" for="home">
                             Nhà riêng
                         </label>
@@ -141,7 +148,7 @@ if (isset($_POST['btn_checkout'])) {
                 </div>
                 <div class=" col-lg-6 ">
                     <div class="btn-success btn_address">
-                        <input class="form-check-input" type="radio" name="office" id="office">
+                        <input class="form-check-input" type="radio" name="office" id="office" value="văn phòng">
                         <label class="label_address" for="office">
                             Văn Phòng
                         </label>
@@ -186,8 +193,8 @@ if (isset($_POST['btn_checkout'])) {
                                     <span><?php echo $value['tenHangHoa'] ?></span>
                                 </div>
                                 <div class="quantity">x<?php echo $listQuantity[$key] ?></div>
-                                <div class="sale">giảm <?php echo $value['mucGiamGia'] ?>%</div>
-                                <div class="price"><?php echo $value['donGia'] ?> đ</div>
+                                <div class="sale">giảm <?php echo  $value['mucGiamGia'] ?>%</div>
+                                <div class="price"><?php echo number_format($value['donGia'], 0, ",", ".") ?> đ</div>
                             </div>
 
                         </div>
@@ -210,14 +217,14 @@ if (isset($_POST['btn_checkout'])) {
                     <div>
                         <span>Tạm tính</span>
                     </div>
-                    <div class="price"><?php echo $totalMoney ?> đ</div>
+                    <div class="price"><?php echo number_format($totalMoney, 0, ",", ".") ?> đ</div>
 
                 </div>
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <span>Phí vận chuyển</span>
                     </div>
-                    <div class="price">30000 đ</div>
+                    <div class="price"><?php echo number_format(30000, 0, ",", ".") ?> đ</div>
 
                 </div>
 
@@ -227,7 +234,7 @@ if (isset($_POST['btn_checkout'])) {
                     <div>
                         <span>Tổng cộng</span>
                     </div>
-                    <div class="price"><?php echo (int)$totalMoney + (int)30000 ?> đ</div>
+                    <div class="price"><?php echo number_format((int)$totalMoney + (int)30000, 0, ",", ".") ?> đ</div>
 
                 </div>
                 <div class="d-flex align-items-center justify-content-between">
@@ -237,6 +244,7 @@ if (isset($_POST['btn_checkout'])) {
                     </div>
                     <button class="btn  btn-success" name="btn_checkout">Đặt hàng</button>
                 </div>
+                <?php echo !empty($notify['checkout ']) ? $notify['checkout'] : "" ?>
             </div>
         </div>
 </div>
