@@ -25,6 +25,7 @@
             <div class="nav-item col-lg-12 btn-add"><a href="?page=manageComments" class="nav-link links add font-weight-bold text-uppercase">Quản lý Bình luận</a></div>
             <div class="nav-item col-lg-12 btn-add"><a href="?page=manageUser" class="nav-link links add font-weight-bold text-uppercase">Quản lý khách hàng</a></div>
             <div class="nav-item col-lg-12 btn-add"><a href="?page=manageInvoice" class="nav-link links add font-weight-bold text-uppercase">Quản lý đơn hàng</a></div>
+            <div class="nav-item col-lg-12 btn-add"><a href="?page=statistical" class="nav-link links add font-weight-bold text-uppercase">Thống kê </a></div>
         </sestion>
         <button class="btn btn-success logout "><a href="?page=login&&logout=true" class="white">Đăng xuất</a> </button>
 

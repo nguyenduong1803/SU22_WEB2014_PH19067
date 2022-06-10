@@ -148,3 +148,26 @@ function getInvoice($id)
         return $invoice;
     }
 }
+function getDetailIvoice($maHd)
+{
+    $sql = "SELECT * FROM `chitiethd` inner join `hoaDon` on hoaDon.maHoaDon = `chiTiethd`.maHoaDon where chitiethd.maHoaDon ={$maHd}";
+    $kq = db_select($sql);
+    $invoice = [];
+    if ($kq->num_rows > 0) {
+        while ($row = $kq->fetch_assoc()) {
+            array_push($invoice, $row);
+        }
+    }
+    return $invoice;
+}
+function statisticalView(){
+    $sql="SELECT tenHangHoa,soLuotXem FROM `hangHoa` ORDER BY soLuotXem DESC LIMIT 10;";
+    $kq = db_select($sql);
+    $products = [];
+    if ($kq->num_rows > 0) {
+        while ($row = $kq->fetch_assoc()) {
+            array_push($products, $row);
+        }
+    }
+    return $products;
+}
