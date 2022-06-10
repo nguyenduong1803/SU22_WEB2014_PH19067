@@ -140,12 +140,12 @@
     <div class="copy-right">
         <p>@ Bản quyền thuộc về NguyenDuong | Cung cấp bởi NguyenDuong Developer</p>
     </div>
-    <div class="tabbar">
+    <!-- <div class="tabbar">
         <ion-icon class="tab" name="logo-twitter"></ion-icon>
         <ion-icon class="tab " name="logo-youtube"></ion-icon>
         <ion-icon class="tab" name="logo-facebook"></ion-icon>
         <ion-icon class="tab" name="logo-instagram"></ion-icon>
-    </div>
+    </div> -->
     <div class="details">
 
     </div>

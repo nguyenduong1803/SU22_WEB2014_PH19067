@@ -9,7 +9,7 @@ if (isset($_GET['addCart'])) {
     if ($saveCookie != "" && isset($_COOKIE['list']) && $_COOKIE['list'] != "null") {
         (array)$getCookie = json_decode($_COOKIE['list'],true);
         if (in_array($saveCookie, $getCookie)) {
-            header("Location:?page=products&sussec=false");
+            header("Location:?page=products&sussec=true");
         } else {
             array_push($getCookie, $saveCookie);
             $newArr = array_unique($getCookie);

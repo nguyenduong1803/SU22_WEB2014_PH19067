@@ -91,7 +91,7 @@ if ($state === true) {
             $product  = "UPDATE `hanghoa` SET `moTa` = '{$description}', `hinhAnh` = '{$path}', 
             `donGia` = '{$price}', `tenHangHoa` = '{$fullname}',`maLoaiHang`='{$category}' WHERE `hangHoa`.`maHangHoa` = {$id};";
             db_insert($product);
-            header("Location:?page=admin");
+            header("Location:?page=manageProduct");
         }
     }
 }

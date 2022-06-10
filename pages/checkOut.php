@@ -6,6 +6,7 @@ $listQuantity = [];
 $notify = [];
 $totalMoney = 0;
 $error = [];
+
 if (isset($_GET['listId'])) {
     $listId = $_GET['listId'];
     $listQuantity = explode(',',  $_GET['q']);
@@ -46,11 +47,12 @@ if (isset($_POST['btn_checkout'])) {
         if (empty($error)) {
             $notify['checkout'] = "Đặt hàng thành công";
             $totalBill = (int)$totalMoney + 300000;
-            $sql = "INSERT INTO `hoadon` (`ngayMua`, `maKh`, `trangThai`, `tongThanhToan`, `diaChi`, `tenNguoiNhan`, `soDienThoai`,`ghiChu`,`noiNhan`) VALUES 
-                     (now(), '{$_SESSION['id']}', 'đang giao hàng', '{$totalBill}', '{$address}', '{$user}', '{$phone}','{$note}','{$office}');";
+            $uniq=uniqid();
+            $sql = "INSERT INTO `hoadon` (`ngayMua`, `maKh`, `trangThai`, `tongThanhToan`, `diaChi`, `tenNguoiNhan`, `soDienThoai`,`ghiChu`,`noiNhan`,`uniqId`) VALUES 
+                     (now(), '{$_SESSION['id']}', 'đang giao hàng', '{$totalBill}', '{$address}', '{$user}', '{$phone}','{$note}','{$office}','{$uniq}');";
             db_insert($sql);
             $stringquantity=implode(",", $listQuantity);
-            header("Location:?page=handleClick&phone={$phone}&listId={$listId}&q={$stringquantity}");
+            header("Location:?page=handleClick&phone={$phone}&listId={$listId}&q={$stringquantity}&uniq={$uniq}");
         } else {
             $notify['checkout'] = "Đặt hàng thất bại";
         }

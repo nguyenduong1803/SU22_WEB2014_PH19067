@@ -71,6 +71,7 @@ if(isset($_POST['send'])){
                 $passwords = $row['matKhau'];
             }  
             require "Mail/sendMail.php";
+            $newPassword= uniqid();
             SendMail($email,$getName,$passwords);
             echo "Đã gửi tới: ".$email;         
         }else{

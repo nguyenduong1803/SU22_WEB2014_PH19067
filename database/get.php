@@ -15,7 +15,7 @@ function getProduct()
 function getProductById($id)
 {
     if (is_array($id) && count($id) > 0) {
-       $listID= implode(",",$id);
+        $listID = implode(",", $id);
         $list = [];
         $sql = "SELECT * FROM `hanghoa` WHERE maHangHoa in ({$listID})";
         $result = db_select($sql);
@@ -25,8 +25,7 @@ function getProductById($id)
             }
         }
         return $list;
-    } elseif($id) {
-
+    } elseif ($id) {
         $list = [];
         $sql = "SELECT * FROM `hanghoa` WHERE maHangHoa='{$id}'";
         $result = db_select($sql);
@@ -36,22 +35,21 @@ function getProductById($id)
             }
         }
         return $list;
-    }else{
+    } else {
         return [];
     }
 }
 function getProductByListId($list)
 {
-        $lists = [];
-        $sql = "SELECT * FROM `hanghoa` WHERE maHangHoa in ({$list})";
-        $result = db_select($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                array_push($lists, $row);
-            }
+    $lists = [];
+    $sql = "SELECT * FROM `hanghoa` WHERE maHangHoa in ({$list})";
+    $result = db_select($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            array_push($lists, $row);
         }
-        return $lists;
-     
+    }
+    return $lists;
 }
 function getCategory()
 {
@@ -67,15 +65,39 @@ function getCategory()
 }
 function getUserById($id)
 {
-    $sql = "SELECT * FROM `khachHang` WHERE `maKh`={$id} Limit 1";
-    $kq = db_select($sql);
-    $list = [];
-    if ($kq->num_rows > 0) {
-        while ($row = $kq->fetch_assoc()) {
-            array_push($list, $row);
+    if (is_array($id) && count($id) > 0) {
+        $listID = implode(",", $id);
+        $list = [];
+        $sql = "SELECT * FROM `khachHang` WHERE maKh in ({$listID})";
+        $result = db_select($sql);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($list, $row);
+            }
         }
+        return $list;
+    } elseif ($id === "*") {
+        $list = [];
+        $sql = "SELECT * FROM `khachHang`";
+        $result = db_select($sql);
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($list, $row);
+            }
+        }
+        return $list;
+    } else {
+
+        $sql = "SELECT * FROM `khachHang` WHERE `maKh`={$id} Limit 1";
+        $kq = db_select($sql);
+        $list = [];
+        if ($kq->num_rows > 0) {
+            while ($row = $kq->fetch_assoc()) {
+                array_push($list, $row);
+            }
+        }
+        return $list;
     }
-    return $list;
 }
 function getComment($id)
 {
@@ -100,4 +122,29 @@ function joinUserCmt($maKh)
         }
     }
     return $user;
+}
+
+function getInvoice($id)
+{
+    if ($id == "*") {
+        $sql = "SELECT * FROM `hoadon`";
+        $kq = db_select($sql);
+        $invoice = [];
+        if ($kq->num_rows > 0) {
+            while ($row = $kq->fetch_assoc()) {
+                array_push($invoice, $row);
+            }
+        }
+        return $invoice;
+    } else {
+        $sql = "SELECT * FROM `hoadon` WHERE `maHoaDon`= '{$id}'";
+        $kq = db_select($sql);
+        $invoice = [];
+        if ($kq->num_rows > 0) {
+            while ($row = $kq->fetch_assoc()) {
+                array_push($invoice, $row);
+            }
+        }
+        return $invoice;
+    }
 }

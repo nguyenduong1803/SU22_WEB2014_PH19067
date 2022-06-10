@@ -19,25 +19,36 @@ if (isset($_GET['remove'])) {
     }
     removeProduct($id, $img);
 } else if (isset($_GET['categoryID'])) {
+
     $id = $_GET['categoryID'];
     db_remove($id, "loaiHang", "maLoaiHang", "manageCategory", "=");
 } else if (isset($_REQUEST['q'])) {
+
     $listID = $_REQUEST['q'];
     $id =  " {$listID}";
     echo $id;
     db_remove($id, "loaiHang", "maLoaiHang", "manageCategory", "in");
 } else if (isset($_GET['removeCmt'])) {
+    
     $id = $_GET['removeCmt'];
     $productId = $_GET['productId'];
     db_remove($id, "binhluan", "maBinhLuan", "manageComments&&id={$productId}", "=");
 } else if (isset($_GET['removeCookie'])) {
+
     (array)$getCookie = json_decode($_COOKIE['list'],true);
     $index = array_search((int)$_GET['removeCookie'],  (array)$getCookie);
     unset($getCookie[$index]);
     $newArr = array_unique($getCookie);
     setcookie("list", json_encode($newArr));
     header("Location:?page=cart");
+}else if (isset($_GET['userRemove'])){
+
+    $id = $_GET['userRemove'];
+    db_remove($id, "khachHang", "maKh", "manageUser", "=");
 }
+
+
+
 
 
 function db_remove($id, $table, $nameID, $to, $char)
