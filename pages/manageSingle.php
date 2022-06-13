@@ -68,13 +68,13 @@ $list = getProduct();
     .btn--remove:hover {
         background-color: #4e3398;
     }
-
+  
     td {
-        border: 1px solid #ccc;
+        border: 1px solid #fff;
     }
 
     th {
-        border: 1px solid #ccc;
+        border: 1px solid #fff;
         text-align: center;
     }
     th:nth-child(4){

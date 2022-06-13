@@ -152,11 +152,11 @@ if ($state === true) {
     }
 
     td {
-        border: 1px solid #000;
+        border: 1px solid #fff;
     }
 
     th {
-        border: 1px solid #000;
+        border: 1px solid #fff;
         text-align: center;
     }
 
@@ -176,6 +176,8 @@ if ($state === true) {
     .table>:not(:first-child) {
         border-top: none !important;
     }
+
+   
 
     .th_action {
         width: 40px;
@@ -256,61 +258,60 @@ if ($state === true) {
         <input type="file" class="mb-3 file" name="files" class="form-control" id="exampleInputEmail1">
         <span class="notify"> <?php echo !empty($error['file']) ? $error['file'] : ""; ?> </span>
         <button type="submit" name="submit" class="btn btn-primary btns">Submit</button>
-</div>
-<div class="state">
-    <?php
-    echo $notify;
-    ?>
+
+        <div class="state">
+            <?php
+            echo $notify;
+            ?> </div>
     </form>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Check</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Price</th>
+                    <th scope="col" colspan="2" class="color-white th_action">Action</th>
 
-
-</div>
-<div id="demo"></div>
-<div class="container">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Check</th>
-                <th scope="col">Image</th>
-                <th scope="col">Name</th>
-                <th scope="col">Category</th>
-                <th scope="col">Description</th>
-                <th scope="col">Price</th>
-                <th scope="col" colspan="2" class="color-white th_action">Action</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            if (!empty($list)) {
-                foreach ($list as $key => $value) {
-            ?>
-                    <tr>
-                        <td class="td_child"><input class="form-check-input check" type="checkbox" value="" id="flexCheckDefault"></td>
-                        <td><img class="mini-img " src="<?php echo $value['hinhAnh'] ?>" alt=""></td>
-                        <td><?php echo $value['tenHangHoa'] ?></td>
-                        <td> <?php foreach ($cateArr as $keys => $item) {
-                                    if ($value['maLoaiHang'] === $item['maLoaiHang']) {
-                                        echo $item['tenLoaiHang'];
-                                    }
-                                } ?></td>
-                        <td><?php echo $value['moTa'] ?></td>
-                        <td><?php echo $value['donGia'] ?></td>
-                        <td class=""><a href="?page=edit&&id=<?php echo $value['maHangHoa'] ?>" class="btn-action btn-success btn--edit "> <i class="fa-solid fa-pen-to-square green"></i> <span class="color-white">Edit</span></a></td>
-                        <td class=""> <a class="btn-action btn--remove " href="?page=remove&&remove=<?php echo $value['maHangHoa'] ?>"><i class="fa-solid fa-circle-xmark red "></i><span class="color-white">remove</span></a></td>
-                    </tr>
-                    <!-- database/remove.php?remove=<?php echo $value['maHangHoa'] ?> -->
-            <?php
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if (!empty($list)) {
+                    foreach ($list as $key => $value) {
+                ?>
+                        <tr>
+                            <td class="td_child"><input class="form-check-input check" type="checkbox" value="" id="flexCheckDefault"></td>
+                            <td><img class="mini-img " src="<?php echo $value['hinhAnh'] ?>" alt=""></td>
+                            <td><?php echo $value['tenHangHoa'] ?></td>
+                            <td> <?php foreach ($cateArr as $keys => $item) {
+                                        if ($value['maLoaiHang'] === $item['maLoaiHang']) {
+                                            echo $item['tenLoaiHang'];
+                                        }
+                                    } ?></td>
+                            <td><?php echo $value['moTa'] ?></td>
+                            <td><?php echo $value['donGia'] ?></td>
+                            <td class=""><a href="?page=edit&&id=<?php echo $value['maHangHoa'] ?>" class="btn-action btn-success btn--edit "> <i class="fa-solid fa-pen-to-square green"></i> <span class="color-white">Edit</span></a></td>
+                            <td class=""> <a class="btn-action btn--remove " href="?page=remove&&remove=<?php echo $value['maHangHoa'] ?>"><i class="fa-solid fa-circle-xmark red "></i><span class="color-white">remove</span></a></td>
+                        </tr>
+                        <!-- database/remove.php?remove=<?php echo $value['maHangHoa'] ?> -->
+                <?php
+                    }
                 }
-            }
-            ?>
-        </tbody>
-    </table>
-    <button class="btn btn-success chooseAll"> Chọn tất cả</button>
-    <button class="btn btn-success clearAll">Bỏ chọn tất cả</button>
-    <button class="btn btn-danger  deleteAll"> Xóa mục đã chọn</button>
+                ?>
+            </tbody>
+        </table>
+        <button class="btn btn-success chooseAll"> Chọn tất cả</button>
+        <button class="btn btn-success clearAll">Bỏ chọn tất cả</button>
+        <button class="btn btn-danger  deleteAll"> Xóa mục đã chọn</button>
+
+    </div>
 
 </div>
+
 <script type="text/javascript">
     const checkbox = document.querySelectorAll(".check");
     const choose = document.querySelector(".chooseAll");
