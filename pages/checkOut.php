@@ -60,6 +60,7 @@ if (isset($_POST['btn_checkout'])) {
         header("Location:?page=login");
     }
 }
+// SELECT COUNT(chitiethd.maHangHoa) from chitiethd;
 
 ?>
 

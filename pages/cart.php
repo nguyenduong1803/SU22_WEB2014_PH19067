@@ -150,9 +150,12 @@ if (isset($_POST['checkout'])) {
     .clearAll {
         display: none;
     }
+    .table{
+        background-color: #f5f6faff;
+    }
 </style>
 
-<div class="container">
+<div class="container containerCart">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="?page=home">Trang chủ</a></li>
@@ -177,7 +180,7 @@ if (isset($_POST['checkout'])) {
                     foreach ($products as $key => $value) {
                 ?>
                         <tr>
-                            <td class="td_child"><input onClick="handle(this)" class="form-check-input check" name="checkProduct<?php echo $key ?>" type="checkbox" value="<?php echo $value['maHangHoa'] ?>" id="flexCheckDefault"></td>
+                            <td class="td_child"><input onclick="handle(this)" class="form-check-input check" name="checkProduct<?php echo $key ?>" type="checkbox" value="<?php echo $value['maHangHoa'] ?>" id="flexCheckDefault"></td>
                             <td><img class="mini-img" src="<?php echo $value['hinhAnh'] ?>" alt=""></td>
                             <td><?php echo $value['tenHangHoa'] ?></td>
 

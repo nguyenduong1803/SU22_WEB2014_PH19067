@@ -1,6 +1,7 @@
 <?php
- if (session_id() === '')
- session_start();
+if (session_id() === '')
+    session_start();
+    require "./database/add.php";
 $state = false;
 if (
     !isset($_POST['username']) || !isset($_POST['password'])
@@ -28,20 +29,19 @@ if ($state === true) {
     $sql = "SELECT * FROM `khachhang` WHERE `matKhau` ='{$password}' 
     and  `tenKh` ='{$username}' ";
     $result = db_search($sql);
-    if($result->num_rows > 0){
+    if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $pass = $row['matKhau'];
             $name = $row['tenKh'];
             $id = $row['maKh'];
             $role = $row['chucNang'];
-        }           
-
+        }
     }
     if (isset($name) && isset($pass)) {
         if ($pass == $password && $name == $username) {
-            $_SESSION['username']=$name;
-            $_SESSION['id']=$id;
-            $_SESSION['role']=$role;
+            $_SESSION['username'] = $name;
+            $_SESSION['id'] = $id;
+            $_SESSION['role'] = $role;
             // setcookie('username', $name, time() + 3600);
             // setcookie('id', $id, time() + 3600);
             // setcookie('password', $pass, time() + 3600);
@@ -57,24 +57,26 @@ if (isset($_GET['logout'])) {
 }
 // Forgot Password
 
-if(isset($_POST['send'])){
-    if(empty($_POST['getname'])){
-        $notifyName="Vui lòng nhập tên tài khoản";
-    }else{
+if (isset($_POST['send'])) {
+    if (empty($_POST['getname'])) {
+        $notifyName = "Vui lòng nhập tên tài khoản";
+    } else {
         require "database/search.php";
         $getName = $_POST['getname'];
-        $sql = "SELECT * FROM `khachHang` WHERE `tenKh`='{$getName}' Limit 1";  
+        $sql = "SELECT * FROM `khachHang` WHERE `tenKh`='{$getName}' Limit 1";
         $result = db_search($sql);
-        if($result->num_rows > 0){
+        if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $email = $row['email'];
                 $passwords = $row['matKhau'];
-            }  
+            }
             require "Mail/sendMail.php";
-            $newPassword= uniqid();
-            SendMail($email,$getName,$passwords);
-            echo "Đã gửi tới: ".$email;         
-        }else{
+            $newPassword = uniqid();
+            $sql = "UPDATE `khachhang` SET `matKhau` = '{$newPassword}' WHERE `tenKh`='{$getName}'";
+            db_insert($sql);
+            SendMail($email, $getName, $newPassword);
+            echo "Đã gửi tới: " . $email;
+        } else {
             echo "Không gửi được mail";
         }
     }
@@ -137,45 +139,47 @@ if(isset($_POST['send'])){
         text-decoration: none;
         color: #000;
     }
-    .form{
+
+    .form {
         margin: 0 auto;
     }
+
     .form__conatiner {
         padding: 60px 0;
-    background: #eaafc8;
-    background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
-    background: linear-gradient(to right, #eaafc8, #654ea3);
-  }
+        background: #eaafc8;
+        background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
+        background: linear-gradient(to right, #eaafc8, #654ea3);
+    }
 </style>
 <div class="form__conatiner">
 
 
-<form class="form form1" method="POST">
-    <h2>Login</h2>
-    <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Username</label>
-        <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" username">
-        <span class="notify"> <?php echo $notifyUser  ?> </span>
-    </div>
-    <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="password">
-        <span class="notify"> <?php echo $notifyPass ?> </span>
-    </div>
-    <button type="submit" name="submit" class="btn btn-primary btns">Submit</button>
-    <p class="forgot"><a href="" class="forgot-link">forgot password?</a> </p>
-    <div class="state">
-        <?php echo $info; ?>
-    </div>
-</form>
-<form action="" class="form-forgot form form-dis " method="POST">
- <h2>Get Account</h2>
-    <div class="mb-3">
-        <label  class="form-label">Username</label>
-        <input type="text" name="getname" class="form-control" placeholder=" username">
-        <span class="notify"> <?php echo $notifyName  ?> </span>
-    </div>
-    <button type="submit" name="send" class="btn btn-primary btns btn-forgot">Forgot Password</button>
-    <p class="btn__login ">Đăng nhập</p>
-</form>
+    <form class="form form1" method="POST">
+        <h2>Login</h2>
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" username">
+            <span class="notify"> <?php echo $notifyUser  ?> </span>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="password">
+            <span class="notify"> <?php echo $notifyPass ?> </span>
+        </div>
+        <button type="submit" name="submit" class="btn btn-primary btns">Submit</button>
+        <p class="forgot"><a href="" class="forgot-link">forgot password?</a> </p>
+        <div class="state">
+            <?php echo $info; ?>
+        </div>
+    </form>
+    <form action="" class="form-forgot form form-dis " method="POST">
+        <h2>Get Account</h2>
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="getname" class="form-control" placeholder=" username">
+            <span class="notify"> <?php echo $notifyName  ?> </span>
+        </div>
+        <button type="submit" name="send" class="btn btn-primary btns btn-forgot">Forgot Password</button>
+        <p class="btn__login ">Đăng nhập</p>
+    </form>
 </div>

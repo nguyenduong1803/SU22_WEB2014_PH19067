@@ -58,6 +58,8 @@ if (isset($_GET['id'])) {
     .btn--remove:hover {
         background-color: #4e3398;
     }
+    .table{
+    }
 
     td {
         border: 1px solid #fff;
@@ -68,7 +70,7 @@ if (isset($_GET['id'])) {
         text-align: center;
         width: 16%;
     }
-
+    
     /* th:nth-child(1) {
 
         width: 30px;

@@ -1,7 +1,7 @@
 <?php
 require "database/get.php";
-$products = getProduct();
-
+$category = getCategory();
+$listCate = [];
 ?>
 
 
@@ -31,7 +31,9 @@ $products = getProduct();
 
   .bestSeller {
     overflow: hidden;
-    min-height: 900px;
+    /* min-height: 900px; */
+    height: auto;
+    margin: 24px auto;
   }
 
   .sell-title {
@@ -490,14 +492,16 @@ $products = getProduct();
     font-size: 17px;
     white-space: nowrap;
   }
-  .toast_close{
+
+  .toast_close {
     top: 10px;
     right: 10px;
-    line-height:2.1rem;
+    line-height: 2.1rem;
     position: absolute;
-    transition:1s;
+    transition: 1s;
 
   }
+
   #toast #img {
     width: 60px;
     height: 60px;
@@ -548,6 +552,7 @@ $products = getProduct();
     font-size: 17px;
     white-space: nowrap;
   }
+
   #toast2 #img2 {
     width: 60px;
     height: 60px;
@@ -571,10 +576,11 @@ $products = getProduct();
     -webkit-animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 2s;
     animation: fadein 0.5s, expand 0.5s 0.5s, stay 3s 1s, shrink 0.5s 4s;
   }
-  .btn-checkout{
-    display:block;
+
+  .btn-checkout {
+    display: block;
     background-color: #f97e6c;
-    color:#fff;
+    color: #fff;
     width: 130px;
     height: 30px;
     text-align: center;
@@ -582,13 +588,24 @@ $products = getProduct();
     text-decoration: none;
     border-radius: 2px;
   }
-  .btn-checkout:hover{
-    color:#fff;
+
+  .btn-checkout:hover {
+    color: #fff;
     background-color: #f97e6cc4;
   }
-  #title_name{
+
+  #title_name {
     margin: 10px 0 6px 0;
   }
+
+  .wrap_list_products {
+    display: none;
+  }
+
+  .wrap_list_products:first-child {
+    display: flex;
+  }
+
   @-webkit-keyframes fadein {
     from {
       bottom: 0;
@@ -672,9 +689,10 @@ $products = getProduct();
       min-width: 50px;
     }
   }
+
   @keyframes out {
     from {
-     right: 10px;
+      right: 10px;
     }
 
     to {
@@ -717,64 +735,51 @@ $products = getProduct();
   </div>
   <div class="bestSeller">
     <div class="sell-title row justify-content-center">
-
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <p class="manClock active  ">Đồng hồ nam</p>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <p class="femanClock">Đồng hồ nữ</p>
-
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <p class="phuKien">Phụ kiện</p>
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <p class="phuKien">Laptop</p>
-      </div>
-
-
+      <?php
+      foreach ($category as $key => $value) {
+        array_push($listCate, $value['tenLoaiHang']);
+      ?>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <p onclick="handleToggle(<?php echo $key ?>)" class="manClock <?php echo $key == 0 ? "active" : "" ?>"><?php echo $value['tenLoaiHang'] ?></p>
+        </div>
+      <?php } ?>
     </div>
     <div class="container">
-      <div class="row seller-item">
-        <?php
-        foreach ($products as $key => $value) {
-        ?>
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="seller-item ">
-              <a href="?page=detailProduct&&id=<?php echo $value['maHangHoa'] ?>" class="seller_hover">
-                <img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt="">
-              </a>
-              <h2 id="title_name"><?php echo $value['tenHangHoa'] ?></h2>
-              <span class="minusPrice"><?php echo number_format($value['donGia'],0,",",".") ?></span>
-              <p class="money"><?php echo number_format($value['donGia'] * (100 - $value['mucGiamGia'])/100,0,",",".") ?><u>đ</u></p>
-              <ion-icon class="shows" name="eye-outline"></ion-icon>
-              <a class="add-cart" href="?page=cart&&addCart=<?php echo $value['maHangHoa'] ?>">
-                <ion-icon class="eye" name="cart-outline"></ion-icon>
-              </a>
-              <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
-              <a href="" class=" btn-checkout">Mua ngay</a>
+      <?php
+      foreach ($listCate as $key => $values) {
+        $products = getProductbyCate($values);
+      ?>
+        <div class="row seller-item wrap_list_products">
+          <?php
+          foreach ($products as $key => $value) {
+          ?>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+              <div class="seller-item ">
+                <a href="?page=detailProduct&&id=<?php echo $value['maHangHoa'] ?>" class="seller_hover">
+                  <img class="product__img" id="" src="<?php echo $value['hinhAnh'] ?>" alt="">
+                </a>
+                <h2 id="title_name"><?php echo $value['tenHangHoa'] ?></h2>
+                <span class="minusPrice"><?php echo number_format($value['donGia'], 0, ",", ".") ?></span>
+                <p class="money"><?php echo number_format($value['donGia'] * (100 - $value['mucGiamGia']) / 100, 0, ",", ".") ?><u>đ</u></p>
+                <ion-icon class="shows" name="eye-outline"></ion-icon>
+                <a class="add-cart" href="?page=cart&&addCart=<?php echo $value['maHangHoa'] ?>">
+                  <ion-icon class="eye" name="cart-outline"></ion-icon>
+                </a>
+                <span class="sale">-<?php echo $value['mucGiamGia'] ?>%</span>
+                <a href="?page=checkout&listId=<?php echo $value['maHangHoa'] ?>&q=1" class=" btn-checkout">Mua ngay</a>
+              </div>
             </div>
-          </div>
+          <?php
+          }
+          ?>
+        </div>
+      <?php
+      }
 
-        <?php
-        }
-        ?>
-      </div>
-
+      ?>
 
     </div>
-    <div class="feman-seller">
-      <div class="feman-product">
-      </div>
-      <div class="feman-product2">
-      </div>
-    </div>
-    <div class="item-seller">
-      <div class="phuKien-product">
-      </div>
-      <div class="phuKien-product2">
-      </div>
-    </div>
+
   </div>
 </div>
 <div id="toast">
@@ -821,6 +826,27 @@ $products = getProduct();
   </div>
 </div> -->
 <script type="text/javascript">
+  var listProducts = document.querySelectorAll(".wrap_list_products");
+  var btn = document.querySelectorAll(".manClock");
+  console.log(listProducts);
+  const handleToggle = handleToggles();
+
+  function handleToggles() {
+    return function toggle(index) {
+      listProducts.forEach((ele, i) => {
+        if (index === i) {
+          btn[i].classList.add("active")
+          ele.style.display = "flex"
+        } else {
+          btn[i].classList.remove("active")
+          ele.style.display = "none"
+        }
+      })
+    }
+
+
+  }
+
   function launch_toast(toast) {
     var x = document.getElementById(toast)
     x.className = "show";
@@ -829,18 +855,17 @@ $products = getProduct();
 
     }, 5000);
     setTimeout(function() {
-    const close= document.querySelectorAll(".toast_close").forEach((item)=>{
-      item.style.display = "none";
-    })
-    },3000)
+      const close = document.querySelectorAll(".toast_close").forEach((item) => {
+        item.style.display = "none";
+      })
+    }, 3000)
   }
   <?php
-  if (isset($_GET['sussec']) && $_GET['sussec']==="true") {
+  if (isset($_GET['sussec']) && $_GET['sussec'] === "true") {
     echo "launch_toast('toast')";
     // echo "thành công";
-  }elseif(isset($_GET['sussec']) && $_GET['sussec']==="false"){
+  } elseif (isset($_GET['sussec']) && $_GET['sussec'] === "false") {
     echo "launch_toast('toast2')";
-
   }
   ?>
 </script>
