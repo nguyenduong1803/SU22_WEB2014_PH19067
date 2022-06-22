@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION['username']) || !$_SESSION['username'] === "admin") {
+if (!isset($_SESSION['username']) || !$_SESSION['role'] === "admin") {
     die("không thể truy cập");
 }
 require "database/get.php";
@@ -240,8 +240,6 @@ if ($state === true) {
             ele.checked = true
         })
     })
-
-
     clear.addEventListener('click', function() {
         clear.style.display = "none"
         choose.style.display = "inline-block"
@@ -258,8 +256,6 @@ if ($state === true) {
     function alerts() {
         const deleteAll = document.querySelector('.deleteAll');
         const allChoose = document.querySelectorAll('.check');
-
-      
         deleteAll.onclick = e => {
             const isSucssec = confirm('Bạn có muốn xóa những Sản Phẩm đã chọn');
             // console.log(allChoose)

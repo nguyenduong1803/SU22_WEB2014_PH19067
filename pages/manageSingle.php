@@ -1,7 +1,7 @@
 
 
 <?php
-if (!isset($_SESSION['username']) || !$_SESSION['username'] === "admin") {
+if (!isset($_SESSION['username']) || !$_SESSION['role'] === "admin") {
     die("không thể truy cập");
 }
 require "database/get.php";

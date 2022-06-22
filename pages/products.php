@@ -843,8 +843,6 @@ $listCate = [];
         }
       })
     }
-
-
   }
 
   function launch_toast(toast) {

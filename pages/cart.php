@@ -7,7 +7,7 @@ if (isset($_GET['addCart'])) {
     // echo $productId;
     $saveCookie = (int)$productId;
     if ($saveCookie != "" && isset($_COOKIE['list']) && $_COOKIE['list'] != "null") {
-        (array)$getCookie = json_decode($_COOKIE['list'],true);
+        (array)$getCookie = json_decode($_COOKIE['list'], true);
         if (in_array($saveCookie, $getCookie)) {
             header("Location:?page=products&sussec=true");
         } else {
@@ -25,7 +25,7 @@ if (isset($_GET['addCart'])) {
 
 $products = [];
 if (isset($_COOKIE['list'])) {
-    (array)$getCookie = json_decode($_COOKIE['list'],true);
+    (array)$getCookie = json_decode($_COOKIE['list'], true);
     $products = getProductById($getCookie);
 }
 if (isset($_POST['checkout'])) {
@@ -150,7 +150,8 @@ if (isset($_POST['checkout'])) {
     .clearAll {
         display: none;
     }
-    .table{
+
+    .table {
         background-color: #f5f6faff;
     }
 </style>
