@@ -6,7 +6,7 @@ $listQuantity = [];
 $notify = [];
 $totalMoney = 0;
 $error = [];
-
+echo uniqid();
 if (isset($_GET['listId'])) {
     $listId = $_GET['listId'];
     $listQuantity = explode(',',  $_GET['q']);

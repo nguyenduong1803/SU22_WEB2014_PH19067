@@ -27,7 +27,9 @@ if (session_id() === '')
         .bigs {
             background-color: #fff !important;
         }
-
+        .nav__item{
+            box-shadow:1px 2px 20px rgb(114 114 114 / 30%);
+        }
         .mynav {
             margin-bottom: 4px;
         }
@@ -48,7 +50,7 @@ if (session_id() === '')
             color:#4a4a4a;
         }
     </style>
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg bg-light nav__item">
         <div class="container ">
             <a class="navbar-brand" href="?page=home"><img class="logo_xshop" src="./public/img/xshop.png" alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

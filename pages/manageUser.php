@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION['username']) || !$_SESSION['username'] === "admin") {
+if (!isset($_SESSION['username']) || !$_SESSION['role'] === "admin") {
     die("không thể truy cập");
 }
 require "database/get.php";
@@ -143,7 +143,6 @@ if ($state === true) {
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Check</th>
                     <th scope="col">Avatar</th>
                     <th scope="col">Tên khách hàng</th>
                     <th scope="col">Chức năng</th>
@@ -158,7 +157,6 @@ if ($state === true) {
                     foreach ($list as $key => $value) {
                 ?>
                         <tr>
-                            <td class="td_child"><input class="form-check-input check" type="checkbox" value="<?php echo $value['maKh'] ?>" id="flexCheckDefault"></td>
                             <td><img class="avatar" src="<?php echo $value['hinhAnh'] ?>" alt=""></td>
                             <td><?php echo $value['tenKh'] ?></td>
                             <td><?php echo $value['chucNang'] ?></td>
@@ -169,7 +167,7 @@ if ($state === true) {
                                 </a>
                             </td>
                             <td class="">
-                                <a class="btn-action btn--remove " style="<?php echo $value['chucNang']==0 ?"display:flex":"display:none" ?>" href="?page=remove&&userRemove=<?php echo $value['maKh'] ?>">
+                                <a class="btn-action btn--remove " style="<?php echo $value['chucNang']=="user" ?"display:flex":"display:none" ?>" href="?page=remove&&userRemove=<?php echo $value['maKh'] ?>">
                                     <i class="fa-solid fa-circle-xmark red "></i><span class="color-white">remove </span>
                                 </a>
                             </td>
@@ -181,9 +179,7 @@ if ($state === true) {
                 ?>
             </tbody>
         </table>
-        <button class="btn btn-success chooseAll"> Chọn tất cả</button>
-        <button class="btn btn-success clearAll">Bỏ chọn tất cả</button>
-        <button class="btn btn-danger  deleteAll"> Xóa mục đã chọn</button>
+     
         <div class="demo"></div>
     </div>
 </div>

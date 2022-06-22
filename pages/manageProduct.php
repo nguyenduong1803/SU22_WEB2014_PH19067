@@ -1,6 +1,6 @@
 <?php
 require "./lib/extention.php";
-if (!isset($_SESSION['username']) || !$_SESSION['username'] === "admin") {
+if (!isset($_SESSION['username']) || !$_SESSION['role'] === "admin") {
     die("không thể truy cập");
 }
 require "database/get.php";
@@ -165,8 +165,8 @@ if ($state === true) {
         width: 30px;
     }
 
-    th:nth-child(5) {
-        width: 30%;
+    th:nth-child(6) {
+        width: 20%;
     }
 
     th:nth-child(4) {
@@ -271,6 +271,7 @@ if ($state === true) {
                     <th scope="col">Check</th>
                     <th scope="col">Image</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Views</th>
                     <th scope="col">Category</th>
                     <th scope="col">Description</th>
                     <th scope="col">Price</th>
@@ -287,6 +288,7 @@ if ($state === true) {
                             <td class="td_child"><input class="form-check-input check" type="checkbox" value="" id="flexCheckDefault"></td>
                             <td><img class="mini-img " src="<?php echo $value['hinhAnh'] ?>" alt=""></td>
                             <td><?php echo $value['tenHangHoa'] ?></td>
+                            <td><?php echo $value['soLuotXem'] ?></td>
                             <td> <?php foreach ($cateArr as $keys => $item) {
                                         if ($value['maLoaiHang'] === $item['maLoaiHang']) {
                                             echo $item['tenLoaiHang'];
